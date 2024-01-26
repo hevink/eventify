@@ -18,6 +18,9 @@ import { LoginSchema } from "@/schemas";
 import { FormError } from "@/components/Form-error";
 import { FormSuccess } from "@/components/Form-Success";
 import { login } from "@/actions/login";
+import { Button } from "@/components/ui/button";
+import { signIn } from "next-auth/react";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
 const Login = () => {
   const [error, setError] = React.useState<string | undefined>("");
@@ -33,8 +36,14 @@ const Login = () => {
 
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
     login(values).then((response) => {
-      setError(response.error);
-      setSuccess(response.success);
+      setError(response?.error);
+      setSuccess(response?.success);
+    });
+  };
+
+  const handleLogin = () => {
+    signIn("google", {
+      callbackUrl: DEFAULT_LOGIN_REDIRECT,
     });
   };
 
@@ -138,7 +147,8 @@ const Login = () => {
             </div>
           </div>
           <div className="mt-3 space-y-3">
-            <button
+            <Button
+              onClick={handleLogin}
               type="button"
               className="relative inline-flex w-full items-center justify-center rounded-md border border-gray-400 bg-white px-3.5 py-2.5 font-semibold text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-black focus:bg-gray-100 focus:text-black focus:outline-none"
             >
@@ -169,7 +179,7 @@ const Login = () => {
                 ></path>
               </svg>
               Sign in with Google
-            </button>
+            </Button>
           </div>
         </div>
       </div>

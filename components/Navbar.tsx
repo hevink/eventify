@@ -6,6 +6,7 @@ import MaxWidthWrapper from "./MaxWidthWrapper";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { signOut } from "@/auth";
 
 const menuItems = [
   {
@@ -48,10 +49,11 @@ export function Navbar() {
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className={`text-sm font-semibold ${pathName === item.href
-                      ? " border-b-2 border-blue-600 bg-gradient-to-r from-purple-600 via-blue-500 to-blue-400 bg-clip-text text-transparent"
-                      : "text-gray-800 hover:text-gray-900"
-                      }`}
+                    className={`text-sm font-semibold ${
+                      pathName === item.href
+                        ? " border-b-2 border-blue-600 bg-gradient-to-r from-purple-600 via-blue-500 to-blue-400 bg-clip-text text-transparent"
+                        : "text-gray-800 hover:text-gray-900"
+                    }`}
                   >
                     {item.name}
                   </Link>
@@ -104,10 +106,11 @@ export function Navbar() {
                         <Link
                           href={item.href}
                           key={item.name}
-                          className={`text-sm font-semibold ${pathName === item.href
-                            ? "bg-gradient-to-r from-purple-600 via-blue-500 to-blue-400 bg-clip-text text-transparent"
-                            : "text-gray-800 hover:text-gray-900"
-                            }`}
+                          className={`text-sm font-semibold ${
+                            pathName === item.href
+                              ? "bg-gradient-to-r from-purple-600 via-blue-500 to-blue-400 bg-clip-text text-transparent"
+                              : "text-gray-800 hover:text-gray-900"
+                          }`}
                         >
                           {item.name}
                         </Link>
