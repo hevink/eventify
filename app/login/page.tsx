@@ -37,7 +37,7 @@ const Login = () => {
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
     login(values).then((response) => {
       setError(response?.error);
-      setSuccess(response?.success);
+      // setSuccess(response?.success);
     });
   };
 
