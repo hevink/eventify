@@ -1,32 +1,42 @@
 "use client";
 
 import React from "react";
-import { ArrowRight, LibraryBig } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { LoginSchema } from "@/schemas";
+import { FormError } from "@/components/Form-error";
+import { FormSuccess } from "@/components/Form-Success";
+import { login } from "@/actions/login";
 
-const formSchema = z.object({
-  email: z.string().email({ message: "Invalid email address" }),
-  password: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters long" }),
-});
+const Login = () => {
+  const [error, setError] = React.useState<string | undefined>("");
+  const [success, setSuccess] = React.useState<string | undefined>("");
 
-function Login() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof LoginSchema>>({
+    resolver: zodResolver(LoginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
+
+  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+    login(values).then((response) => {
+      setError(response.error);
+      setSuccess(response.success);
+    });
+  };
 
   return (
     <Form {...form}>
@@ -50,7 +60,7 @@ function Login() {
               Create a free account
             </Link>
           </p>
-          <form action="#" method="POST" className="mt-8">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="mt-8">
             <div className="space-y-5">
               <div>
                 <label
@@ -67,7 +77,7 @@ function Login() {
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <Input placeholder="Enter Email" {...field} />
+                          <Input placeholder="Hevin69@gmail.com" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -100,7 +110,7 @@ function Login() {
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <Input placeholder="Enter Password" {...field} />
+                          <Input placeholder="******" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -108,9 +118,11 @@ function Login() {
                   />
                 </div>
               </div>
+              <FormError message={error} />
+              <FormSuccess message={success} />
               <div>
                 <button
-                  type="button"
+                  type="submit"
                   className="bg-purple-500 inline-flex w-full items-center justify-center rounded-md px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-purple-700"
                 >
                   Get started <ArrowRight className="ml-2" size={16} />
@@ -163,6 +175,6 @@ function Login() {
       </div>
     </Form>
   );
-}
+};
 
 export default Login;

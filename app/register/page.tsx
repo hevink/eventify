@@ -3,8 +3,42 @@
 import React from "react";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { RegisterSchema } from "@/schemas";
+import * as z from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { login } from "@/actions/login";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { register } from "@/actions/register";
+import { FormError } from "@/components/Form-error";
+import { FormSuccess } from "@/components/Form-Success";
 
 function Register() {
+  const [error, setError] = React.useState<string | undefined>("");
+  const [success, setSuccess] = React.useState<string | undefined>("");
+
+  const form = useForm<z.infer<typeof RegisterSchema>>({
+    resolver: zodResolver(RegisterSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
+    register(values).then((response) => {
+      setError(response.error);
+      setSuccess(response.success);
+    });
+  };
+
   return (
     <section>
       <div className="flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-10">
@@ -27,71 +61,93 @@ function Register() {
               Sign In
             </Link>
           </p>
-          <form action="#" method="POST" className="mt-8">
-            <div className="space-y-5">
-              <div>
-                <label
-                  htmlFor="name"
-                  className="text-base font-medium text-gray-900"
-                >
-                  {" "}
-                  Full Name{" "}
-                </label>
-                <div className="mt-2">
-                  <input
-                    className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                    type="text"
-                    placeholder="Full Name"
-                    id="name"
-                  ></input>
-                </div>
-              </div>
-              <div>
-                <label
-                  htmlFor="email"
-                  className="text-base font-medium text-gray-900"
-                >
-                  {" "}
-                  Email address{" "}
-                </label>
-                <div className="mt-2">
-                  <input
-                    className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                    type="email"
-                    placeholder="Email"
-                    id="email"
-                  ></input>
-                </div>
-              </div>
-              <div>
-                <div className="flex items-center justify-between">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="mt-8">
+              <div className="space-y-5">
+                <div>
                   <label
-                    htmlFor="password"
+                    htmlFor="name"
                     className="text-base font-medium text-gray-900"
                   >
                     {" "}
-                    Password{" "}
+                    Name{" "}
                   </label>
+                  <div className="mt-2">
+                    <FormField
+                      control={form.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input placeholder="Hevin K" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
                 </div>
-                <div className="mt-2">
-                  <input
-                    className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                    type="password"
-                    placeholder="Password"
-                    id="password"
-                  ></input>
+                <div>
+                  <label
+                    htmlFor="email"
+                    className="text-base font-medium text-gray-900"
+                  >
+                    {" "}
+                    Email address{" "}
+                  </label>
+                  <div className="mt-2">
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input placeholder="Hevin69@gmail.com" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <div className="flex items-center justify-between">
+                    <label
+                      htmlFor="password"
+                      className="text-base font-medium text-gray-900"
+                    >
+                      {" "}
+                      Password{" "}
+                    </label>
+                  </div>
+                  <div className="mt-2">
+                    <FormField
+                      control={form.control}
+                      name="password"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input placeholder="******" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </div>
+                <FormError message={error} />
+                <FormSuccess message={success} />
+                <div>
+                  <button
+                    type="submit"
+                    className="inline-flex w-full items-center justify-center rounded-md bg-purple-500  px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-purple-700"
+                  >
+                    Create Account <ArrowRight className="ml-2" size={16} />
+                  </button>
                 </div>
               </div>
-              <div>
-                <button
-                  type="button"
-                  className="inline-flex w-full items-center justify-center rounded-md bg-purple-500  px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-purple-700"
-                >
-                  Create Account <ArrowRight className="ml-2" size={16} />
-                </button>
-              </div>
-            </div>
-          </form>
+            </form>
+          </Form>
           <div className="my-2">
             <div className="flex items-center justify-center space-x-2">
               <div className="h-px bg-gray-400 w-14"></div>
