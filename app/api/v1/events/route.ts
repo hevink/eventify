@@ -21,6 +21,7 @@ export async function POST(request: Request, res: Response) {
       date,
       location,
       organizer,
+      createdBy: {}
     },
   });
 
