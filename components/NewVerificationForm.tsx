@@ -40,12 +40,11 @@ export const NewVerificationForm = () => {
 
   return (
     <div className="mt-[10%] flex items-center justify-center">
-      <CardWrapper
-        headerLabel="Confirming your verification"
-        backButtonLabel="Back to login"
-        backButtonHref="/login"
-      >
-        <div className="flex items-center w-full justify-center">
+      <CardWrapper backButtonLabel="Back to login" backButtonHref="/login">
+        <h1 className="text-xl text-center text-gray-500">
+          {"Confirming your verification"}
+        </h1>
+        <div className="flex items-center w-full justify-center mt-3">
           {!success && !error && <BeatLoader />}
           <FormSuccess message={success} />
           {!success && <FormError message={error} />}

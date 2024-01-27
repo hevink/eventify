@@ -103,14 +103,14 @@ const Login = () => {
                     {" "}
                     Password{" "}
                   </label>
-                  <a
-                    href="#"
+                  <Link
+                    href="auth/reset"
                     title=""
                     className="text-sm font-semibold text-black hover:underline"
                   >
                     {" "}
                     Forgot password?{" "}
-                  </a>
+                  </Link>
                 </div>
                 <div className="mt-2">
                   <FormField

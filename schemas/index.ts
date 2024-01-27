@@ -18,3 +18,15 @@ export const RegisterSchema = z.object({
     message: "Please enter your name",
   }),
 });
+
+export const ResetSchema = z.object({
+  email: z.string().email({
+    message: "Please enter a valid email address",
+  }),
+});
+
+export const NewPasswordSchema = z.object({
+  password: z.string().min(8, {
+    message: "Password must be at least 8 characters long",
+  }),
+});

@@ -8,11 +8,28 @@ export const sendVerificationEmail = async (email: string, token: string) => {
   try {
     const confirmLink = `${domain}/auth/new-verification?token=${token}`;
     console.log("Email verification link", confirmLink);
+    
     await resend.emails.send({
       from: "hevinkalathiya123@gmail.com",
       to: email,
       subject: "Confirm your email",
       html: `<p>Click <a href="${confirmLink}">here</a> to confirm email.</p>`,
+    });
+  } catch (error) {
+    console.error("Error sending verification email:", error);
+  }
+};
+
+export const sendPasswordResetEmail = async (email: string, token: string) => {
+  try {
+    const resetLink = `${domain}/auth/new-password?token=${token}`;
+    console.log("Email verification link", resetLink);
+
+    await resend.emails.send({
+      from: "hevinkalathiya123@gmail.com",
+      to: email,
+      subject: "Confirm your email",
+      html: `<p>Click <a href="${resetLink}">here</a> to reset password.</p>`,
     });
   } catch (error) {
     console.error("Error sending verification email:", error);
