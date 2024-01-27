@@ -22,7 +22,7 @@ import { FormError } from "@/components/Form-error";
 import { FormSuccess } from "@/components/Form-Success";
 import { Button } from "@/components/ui/button";
 
-export const NewPasswordForm = () => {
+const NewPasswordForm = () => {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
 
@@ -42,11 +42,10 @@ export const NewPasswordForm = () => {
     setSuccess("");
 
     startTransition(() => {
-        newPassword(values, token)
-          .then((data) => {
-            setError(data?.error);
-            setSuccess(data?.success);
-          });
+      newPassword(values, token).then((data) => {
+        setError(data?.error);
+        setSuccess(data?.success);
+      });
     });
   };
 
@@ -90,3 +89,5 @@ export const NewPasswordForm = () => {
     </div>
   );
 };
+
+export default NewPasswordForm;
