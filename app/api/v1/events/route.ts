@@ -10,24 +10,32 @@ export async function GET(req: Request, res: Response) {
 }
 
 export async function POST(request: Request, res: Response) {
-  const body = await request.json();
+  try {
+    const body = await request.json();
 
-  const { eventName, description, date, location, organizer } = body;
+    const { eventName, description, eventDate, location, organizer } = body;
 
-  const EventCreate = await prisma.event.create({
-    data: {
-      name: eventName,
-      description,
-      date,
-      location,
-      organizer,
-      createdBy: {}
-    },
-  });
+    const EventCreate = await prisma.event.create({
+      data: {
+        eventId: "3",
+        name: eventName,
+        description,
+        date: eventDate,
+        location,
+        organizer,
+      },
+    });
 
-  return Response.json({
-    EventCreate,
-    status: 200,
-    message: "Event created successfully",
-  });
+    return NextResponse.json({
+      EventCreate,
+      status: 200,
+      message: "Event created successfully",
+    });
+  } catch (error) {
+    return NextResponse.json({
+      error,
+      status: 100,
+      message: "Something Went Wrong",
+    });
+  }
 }

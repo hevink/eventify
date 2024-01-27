@@ -27,7 +27,7 @@ model User {
   password      String?
   role          UserRole  @default(USER)
   accounts      Account[]
-  events        Event[]
+  // events        Event[]
 }
 
 model Account {
@@ -69,5 +69,6 @@ model Event {
   image       String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  createdBy   User      @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  // createdBy   User      @relation(fields: [createdById], references: [id])
+  // createdById String
 }

@@ -1,10 +1,10 @@
 import NextAuth, { DefaultSession } from "next-auth";
-import { PrismaAdapter } from "@auth/prisma-adapter";
-import authConfig from "./auth.config";
-import { db } from "./lib/db";
-import { getUserById } from "./data/user";
 import { UserRole } from "@prisma/client";
+import { PrismaAdapter } from "@auth/prisma-adapter";
 
+import { db } from "@/lib/db";
+import authConfig from "@/auth.config";
+import { getUserById } from "@/data/user";
 declare module "next-auth" {
   interface Session {
     user: {
@@ -14,17 +14,16 @@ declare module "next-auth" {
     } & DefaultSession["user"];
   }
 }
-
 export const {
   handlers: { GET, POST },
   auth,
   signIn,
   signOut,
+  // update,
 } = NextAuth({
-  adapter: PrismaAdapter(db),
   pages: {
-    signIn: "/login",
-    error: "/login",
+    signIn: "/auth/login",
+    error: "/auth/error",
   },
   events: {
     async linkAccount({ user }) {
@@ -36,30 +35,40 @@ export const {
   },
   callbacks: {
     async signIn({ user, account }) {
+      // Todo remove this sign in code if you dont wanna email verification
+      // Allow OAuth without email verification
+      if (account?.provider !== "credentials") return true;
+
       const existingUser = await getUserById(user.id);
 
-      if (!existingUser || !existingUser.emailVerified) {
-        return false;
-      }
-
-      if (account?.provider !== "credentials") {
-        return true;
-      }
+      // Prevent sign in without email verification
+      if (!existingUser?.emailVerified) return false;
 
       return true;
     },
-    //@ts-ignore
+    // @ts-ignore
     async session({ token, session }) {
       if (token.sub && session.user) {
         session.user.id = token.sub;
       }
 
       if (token.role && session.user) {
-        session.user.role = token.role;
+        session.user.role = token.role as UserRole;
       }
+
+      // if (session.user) {
+      //   session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean;
+      // }
+
+      // if (session.user) {
+      //   session.user.name = token.name;
+      //   session.user.email = token.email;
+      //   session.user.isOAuth = token.isOAuth as boolean;
+      // }
 
       return session;
     },
+    // @ts-ignore
     async jwt({ token }) {
       if (!token.sub) return token;
 
@@ -67,12 +76,18 @@ export const {
 
       if (!existingUser) return token;
 
+      const existingAccount = await getUserById(existingUser.id);
+
+      token.isOAuth = !!existingAccount;
+      token.name = existingUser.name;
+      token.email = existingUser.email;
       token.role = existingUser.role;
+      // token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
 
       return token;
     },
   },
+  adapter: PrismaAdapter(db),
   session: { strategy: "jwt" },
-
   ...authConfig,
 });

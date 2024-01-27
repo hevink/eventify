@@ -53,11 +53,9 @@ const ListEvent = () => {
 
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
     axios
       .post("http://localhost:3000/api/v1/events", values)
       .then((response) => {
-        console.log("Request successful:", response.data);
         toast({
           title: "Event Listed Successfully 🎉",
         });
