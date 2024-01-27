@@ -1,10 +1,9 @@
-
-
 import { NewVerificationForm } from "@/components/NewVerificationForm";
-import React from "react";
 
-const NewVerification = () => {
-  return <NewVerificationForm />;
-};
-
-export default NewVerification;
+const NewVerificationPage = () => {
+  return ( 
+    <NewVerificationForm />
+   );
+}
+ 
+export default NewVerificationPage;
