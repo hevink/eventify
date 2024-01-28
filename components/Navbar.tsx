@@ -6,7 +6,6 @@ import MaxWidthWrapper from "./MaxWidthWrapper";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { signOut } from "@/auth";
 
 const menuItems = [
   {
@@ -37,11 +36,11 @@ export function Navbar() {
       <MaxWidthWrapper>
         <div className="mx-auto flex items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
           <div className="inline-flex items-center space-x-2">
-            <span className="font-bold text-4xl">
+            <Link href="/" className="font-bold text-4xl">
               <div className="bg-gradient-to-r from-purple-600 via-blue-500 to-blue-400 bg-clip-text text-transparent">
                 Eventify
               </div>
-            </span>
+            </Link>
           </div>
           <div className="hidden lg:block">
             <ul className="inline-flex space-x-8">
