@@ -12,11 +12,12 @@ export const NewVerificationForm = () => {
   const [error, setError] = useState<string | undefined>();
   const [success, setSuccess] = useState<string | undefined>();
 
-  // const searchParams = useSearchParams();
+  const searchParams = useSearchParams();
 
-  // const token = searchParams.get("token");
+  const token = searchParams.get("token");
+  //todo fix errors here
 
-  const token = ""
+  // const token = ""
 
   const onSubmit = useCallback(() => {
     if (success || error) return;

@@ -23,6 +23,7 @@ export async function POST(request: Request, res: Response) {
         date: eventDate,
         location,
         organizer,
+        createdBy: { connect: { id: "1" } }, 
       },
     });
 
@@ -34,7 +35,7 @@ export async function POST(request: Request, res: Response) {
   } catch (error) {
     return NextResponse.json({
       error,
-      status: 100,
+      status: 400,
       message: "Something Went Wrong",
     });
   }

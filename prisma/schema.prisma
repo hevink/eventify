@@ -19,14 +19,17 @@ enum UserRole {
 }
 
 model User {
-  id            String    @id @default(cuid()) @map("_id")
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  password      String?
-  role          UserRole  @default(USER)
-  accounts      Account[]
+  id                      String                 @id @default(cuid()) @map("_id")
+  name                    String?
+  email                   String?                @unique
+  emailVerified           DateTime?
+  image                   String?
+  password                String?
+  isTwoFactorEnabled      Boolean                @default(false)
+  twoFactorConfirmationId String?
+  role                    UserRole               @default(USER)
+  accounts                Account[]
+  towFactorConfirmation   TwoFactorConfirmation?
   // events        Event[]
 }
 
@@ -67,6 +70,24 @@ model PasswordResetToken {
   @@unique([email, token])
 }
 
+
+model TwoFactorToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model TwoFactorConfirmation {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId])
+}
+
 model Event {
   id          String    @id @default(cuid()) @map("_id")
   eventId     String    @unique
@@ -78,6 +99,7 @@ model Event {
   image       String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  // createdBy   User      @relation(fields: [createdById], references: [id])
-  // createdById String
+  // createdBy   User      @relation(fields: [createdById], references: [id], onDelete: Cascade)
+  // createdById String    @unique
+  //price    String
 }

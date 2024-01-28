@@ -8,7 +8,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
   try {
     const confirmLink = `${domain}/auth/new-verification?token=${token}`;
     console.log("Email verification link", confirmLink);
-    
+
     await resend.emails.send({
       from: "hevinkalathiya123@gmail.com",
       to: email,
@@ -33,5 +33,20 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
     });
   } catch (error) {
     console.error("Error sending verification email:", error);
+  }
+};
+
+export const send2FAEmail = async (email: string, token: string) => {
+  console.log("2FA Token", token);
+
+  try {
+    await resend.emails.send({
+      from: "hevinkalathiya123@gmail.com",
+      to: email,
+      subject: "2FA Code",
+      html: `<p>Your 2FA code: ${token}</p>`,
+    });
+  } catch (error) {
+    console.error("2FA Mail Eroor", error);
   }
 };

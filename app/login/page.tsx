@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useTransition } from "react";
 import { ArrowRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
@@ -25,6 +25,9 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 const Login = () => {
   const [error, setError] = React.useState<string | undefined>("");
   const [success, setSuccess] = React.useState<string | undefined>("");
+  const [showTwoFactor, setShowTwoFactor] = React.useState<boolean>(false);
+
+  const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -35,9 +38,22 @@ const Login = () => {
   });
 
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-    login(values).then((response) => {
-      setError(response?.error);
-      // setSuccess(response?.success);
+    startTransition(() => {
+      login(values)
+        .then((response) => {
+          if (response?.error) {
+            form.reset();
+            setError(response.error);
+          }
+          if (response?.success) {
+            form.reset();
+            setSuccess(response.success);
+          }
+          if (response?.twoFactor) {
+            setShowTwoFactor(true);
+          }
+        })
+        .catch((error) => console.error("[login error]", error));
     });
   };
 
@@ -71,67 +87,109 @@ const Login = () => {
           </p>
           <form onSubmit={form.handleSubmit(onSubmit)} className="mt-8">
             <div className="space-y-5">
-              <div>
-                <label
-                  htmlFor=""
-                  className="text-base font-medium text-gray-900"
-                >
-                  {" "}
-                  Email Address{" "}
-                </label>
-                <div className="mt-2">
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input placeholder="Hevin69@gmail.com" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
-              <div>
-                <div className="flex items-center justify-between">
+              {showTwoFactor && (
+                <div>
                   <label
                     htmlFor=""
                     className="text-base font-medium text-gray-900"
                   >
                     {" "}
-                    Password{" "}
+                    Code{" "}
                   </label>
-                  <Link
-                    href="auth/reset"
-                    title=""
-                    className="text-sm font-semibold text-black hover:underline"
-                  >
-                    {" "}
-                    Forgot password?{" "}
-                  </Link>
+                  <div className="mt-2">
+                    <FormField
+                      control={form.control}
+                      name="code"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              disabled={isPending}
+                              placeholder="123456"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
                 </div>
-                <div className="mt-2">
-                  <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input placeholder="******" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
+              )}
+              {!showTwoFactor && (
+                <>
+                  <div>
+                    <label
+                      htmlFor=""
+                      className="text-base font-medium text-gray-900"
+                    >
+                      {" "}
+                      Email Address{" "}
+                    </label>
+                    <div className="mt-2">
+                      <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Input
+                                disabled={isPending}
+                                placeholder="Hevin69@gmail.com"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <label
+                        htmlFor=""
+                        className="text-base font-medium text-gray-900"
+                      >
+                        {" "}
+                        Password{" "}
+                      </label>
+                      <Link
+                        href="auth/reset"
+                        title=""
+                        className="text-sm font-semibold text-black hover:underline"
+                      >
+                        {" "}
+                        Forgot password?{" "}
+                      </Link>
+                    </div>
+                    <div className="mt-2">
+                      <FormField
+                        control={form.control}
+                        name="password"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Input
+                                placeholder="********"
+                                {...field}
+                                disabled={isPending}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
               <FormError message={error} />
               <FormSuccess message={success} />
               <div>
                 <button
                   type="submit"
+                  disabled={isPending}
                   className="bg-purple-500 inline-flex w-full items-center justify-center rounded-md px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-purple-700"
                 >
                   Get started <ArrowRight className="ml-2" size={16} />

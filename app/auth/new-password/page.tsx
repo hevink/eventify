@@ -23,9 +23,10 @@ import { FormSuccess } from "@/components/Form-Success";
 import { Button } from "@/components/ui/button";
 
 const NewPasswordForm = () => {
-  // const searchParams = useSearchParams();
-  // const token = searchParams.get("token");
-  const token = "";
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token");
+  //todo fix errors here
+  // const token = "";
 
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
