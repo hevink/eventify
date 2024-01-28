@@ -2,7 +2,7 @@
 
 import * as z from "zod";
 import { useForm } from "react-hook-form";
-import { useState, useTransition } from "react";
+import { Suspense, useState, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -52,43 +52,45 @@ const NewPasswordForm = () => {
   };
 
   return (
-    <div className="mt-[10%] flex items-center justify-center">
-      <CardWrapper
-        headerLabel="Enter a new password"
-        backButtonLabel="Back to login"
-        backButtonHref="/auth/login"
-      >
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <div className="space-y-4">
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        disabled={isPending}
-                        placeholder="******"
-                        type="password"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <FormError message={error} />
-            <FormSuccess message={success} />
-            <Button disabled={isPending} type="submit" className="w-full">
-              Reset password
-            </Button>
-          </form>
-        </Form>
-      </CardWrapper>
-    </div>
+    <Suspense>
+      <div className="mt-[10%] flex items-center justify-center">
+        <CardWrapper
+          headerLabel="Enter a new password"
+          backButtonLabel="Back to login"
+          backButtonHref="/auth/login"
+        >
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <div className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          disabled={isPending}
+                          placeholder="******"
+                          type="password"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <FormError message={error} />
+              <FormSuccess message={success} />
+              <Button disabled={isPending} type="submit" className="w-full">
+                Reset password
+              </Button>
+            </form>
+          </Form>
+        </CardWrapper>
+      </div>
+    </Suspense>
   );
 };
 
