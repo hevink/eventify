@@ -23,7 +23,6 @@ export async function POST(request: Request, res: Response) {
         date: eventDate,
         location,
         organizer,
-        createdBy: { connect: { id: "1" } }, 
       },
     });
 
