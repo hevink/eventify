@@ -6,6 +6,7 @@ import MaxWidthWrapper from "./MaxWidthWrapper";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { UserButton } from "./UserButton";
 
 const menuItems = [
   {
@@ -74,6 +75,7 @@ export function Navbar() {
                 Register
               </Button>
             </Link>
+            <UserButton />
           </div>
           <div className="lg:hidden">
             <Menu onClick={toggleMenu} className="h-6 w-6 cursor-pointer" />

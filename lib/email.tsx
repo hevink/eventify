@@ -51,7 +51,7 @@ export function Email({ link }: AWSVerifyEmailProps) {
               <Section style={verificationSection}>
                 <Text style={verifyText}>Verification code</Text>
 
-                <Link href={link} style={codeText}>
+                <Link href={link} style={h1}>
                   Click Here To Confirm Your Email
                 </Link>
                 <Text style={validityText}>
