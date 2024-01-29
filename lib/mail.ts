@@ -1,34 +1,27 @@
-import { Resend } from "resend";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import nodemailer from "nodemailer";
+import { Email } from "./email";
+import { render } from "@react-email/render";
 
 const domain = process.env.NEXT_PUBLIC_APP_URL;
-
-export const sendVerificationEmail = async (email: string, token: string) => {
-  try {
-    const confirmLink = `${domain}/auth/new-verification?token=${token}`;
-    console.log("Email verification link", confirmLink);
-
-    await resend.emails.send({
-      from: "hevinkalathiya123@gmail.com",
-      to: email,
-      subject: "Confirm your email",
-      html: `<p>Click <a href="${confirmLink}">here</a> to confirm email.</p>`,
-    });
-  } catch (error) {
-    console.error("Error sending verification email:", error);
-  }
-};
 
 export const sendPasswordResetEmail = async (email: string, token: string) => {
   try {
     const resetLink = `${domain}/auth/new-password?token=${token}`;
-    console.log("Email verification link", resetLink);
 
-    await resend.emails.send({
-      from: "hevinkalathiya123@gmail.com",
+    const { SMTP_PASSWORD, SMTP_EMAIL } = process.env;
+
+    const transport = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: SMTP_EMAIL,
+        pass: SMTP_PASSWORD,
+      },
+    });
+
+    const sendResult = await transport.sendMail({
+      from: SMTP_EMAIL,
       to: email,
-      subject: "Confirm your email",
+      subject: "",
       html: `<p>Click <a href="${resetLink}">here</a> to reset password.</p>`,
     });
   } catch (error) {
@@ -37,16 +30,51 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
 };
 
 export const send2FAEmail = async (email: string, token: string) => {
-  console.log("2FA Token", token);
+  const { SMTP_PASSWORD, SMTP_EMAIL } = process.env;
+
+  const transport = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: SMTP_EMAIL,
+      pass: SMTP_PASSWORD,
+    },
+  });
 
   try {
-    await resend.emails.send({
-      from: "hevinkalathiya123@gmail.com",
+    const sendResult = await transport.sendMail({
+      from: SMTP_EMAIL,
       to: email,
-      subject: "2FA Code",
+      subject: "",
       html: `<p>Your 2FA code: ${token}</p>`,
     });
   } catch (error) {
     console.error("2FA Mail Eroor", error);
+  }
+};
+
+export const sendVerificationEmail = async (email: string, token: string) => {
+  const { SMTP_PASSWORD, SMTP_EMAIL } = process.env;
+
+  const link = `${domain}/auth/new-verification?token=${token}`;
+
+  const transport = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: SMTP_EMAIL,
+      pass: SMTP_PASSWORD,
+    },
+  });
+
+  const emailHtml = render(Email({ link }));
+
+  try {
+    const sendResult = await transport.sendMail({
+      from: SMTP_EMAIL,
+      to: email,
+      subject: "",
+      html: emailHtml,
+    });
+  } catch (error) {
+    console.log(error);
   }
 };

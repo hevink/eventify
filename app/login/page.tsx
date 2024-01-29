@@ -187,13 +187,13 @@ const Login = () => {
               <FormError message={error} />
               <FormSuccess message={success} />
               <div>
-                <button
+                <Button
                   type="submit"
                   disabled={isPending}
                   className="bg-purple-500 inline-flex w-full items-center justify-center rounded-md px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-purple-700"
                 >
                   Get started <ArrowRight className="ml-2" size={16} />
-                </button>
+                </Button>
               </div>
             </div>
           </form>
