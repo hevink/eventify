@@ -7,6 +7,7 @@ import { Button } from "./ui/button";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { UserButton } from "./UserButton";
+import { useSession } from "next-auth/react";
 
 const menuItems = [
   {
@@ -25,6 +26,7 @@ const menuItems = [
 
 export function Navbar() {
   const pathName = usePathname();
+  const { data: session } = useSession();
 
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
@@ -61,21 +63,25 @@ export function Navbar() {
               ))}
             </ul>
           </div>
-          <div className="hidden lg:block ">
-            <Link href="/login">
-              <Button type="button" variant="ghost" className="mr-2 ">
-                Login
-              </Button>
-            </Link>
-            <Link href="/register">
-              <Button
-                type="button"
-                className="bg-gradient-to-r from-purple-600 via-blue-500 to-blue-400 p-4"
-              >
-                Register
-              </Button>
-            </Link>
-            <UserButton />
+          <div className="hidden lg:block items-center ">
+            {!session && (
+              <>
+                <Link href="/login">
+                  <Button type="button" variant="ghost" className="mr-2 ">
+                    Login
+                  </Button>
+                </Link>
+                <Link href="/register">
+                  <Button
+                    type="button"
+                    className="bg-gradient-to-r from-purple-600 via-blue-500 to-blue-400 p-4"
+                  >
+                    Register
+                  </Button>
+                </Link>
+              </>
+            )}
+            {session && <UserButton />}
           </div>
           <div className="lg:hidden">
             <Menu onClick={toggleMenu} className="h-6 w-6 cursor-pointer" />

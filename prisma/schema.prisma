@@ -30,7 +30,9 @@ model User {
   role                    UserRole               @default(USER)
   accounts                Account[]
   towFactorConfirmation   TwoFactorConfirmation?
-  // events                  Event[]
+  events                  Event[]
+  // passes                  Pass[]
+  // reviews                 Review[]
 }
 
 model Account {
@@ -89,15 +91,59 @@ model TwoFactorConfirmation {
 
 model Event {
   id          String    @id @default(cuid()) @map("_id")
-  eventId     String    @unique
+  eventId     String
   name        String
   date        DateTime?
-  location    String
   organizer   String
   description String
   image       String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  //price    String
-  // User        User?     @relation(fields: [eventId], references: [id])
+  price       String
+  User        User      @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  //? Location fields
+  city        String
+  pin         String
+  state       String
+  country     String
+  street      String
+  //
+  // capacity             Int?
+  // isPublic             Boolean
+  // registrationDeadline DateTime?
+  // categories           String[]
+  // speakers             String
+  // agenda               String?
+  // duration             Int?
+  // registrationLink     String?
+  // livestreamLink       String?
+  // tags                 String[]
+  // featured             Boolean?
+  // Pass                 Pass[]
+  // Review      Review[]
 }
+
+// model Pass {
+//   id          String   @id @default(cuid()) @map("_id")
+//   passId      String
+//   createdAt   DateTime @default(now())
+//   updatedAt   DateTime @updatedAt
+//   price       String
+//   isPurchased Boolean  @default(false)
+//   eventId     String
+//   userId      String
+//   event       Event    @relation(fields: [eventId], references: [id])
+//   user        User     @relation(fields: [userId], references: [id])
+// }
+
+// model Review {
+//   id        String   @id @default(cuid()) @map("_id")
+//   rating    Float
+//   comment   String?
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+//   eventId   String
+//   event     Event    @relation(fields: [eventId], references: [id])
+//   userId    String
+//   user      User     @relation(fields: [userId], references: [id])
+// }

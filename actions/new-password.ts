@@ -58,7 +58,7 @@ export const newPassword = async (
 
   await db.passwordResetToken.delete({
     where: { id: existingToken.id },
-  })  ;
+  });
 
   return {
     success: "Password has been changed!",

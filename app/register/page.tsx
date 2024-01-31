@@ -1,13 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useTransition } from "react";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { RegisterSchema } from "@/schemas";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { login } from "@/actions/login";
 import {
   Form,
   FormControl,
@@ -19,10 +18,12 @@ import { Input } from "@/components/ui/input";
 import { register } from "@/actions/register";
 import { FormError } from "@/components/Form-error";
 import { FormSuccess } from "@/components/Form-Success";
+import { Button } from "@/components/ui/button";
 
 function Register() {
   const [error, setError] = React.useState<string | undefined>("");
   const [success, setSuccess] = React.useState<string | undefined>("");
+  const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
@@ -33,9 +34,11 @@ function Register() {
   });
 
   const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
-    register(values).then((response) => {
-      setError(response.error);
-      setSuccess(response.success);
+    startTransition(() => {
+      register(values).then((response) => {
+        setError(response.error);
+        setSuccess(response.success);
+      });
     });
   };
 
@@ -79,7 +82,11 @@ function Register() {
                       render={({ field }) => (
                         <FormItem>
                           <FormControl>
-                            <Input placeholder="Hevin K" {...field} />
+                            <Input
+                              disabled={isPending}
+                              placeholder="Hevin K"
+                              {...field}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -102,7 +109,11 @@ function Register() {
                       render={({ field }) => (
                         <FormItem>
                           <FormControl>
-                            <Input placeholder="Hevin69@gmail.com" {...field} />
+                            <Input
+                              disabled={isPending}
+                              placeholder="Hevin69@gmail.com"
+                              {...field}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -127,7 +138,11 @@ function Register() {
                       render={({ field }) => (
                         <FormItem>
                           <FormControl>
-                            <Input placeholder="******" {...field} />
+                            <Input
+                              disabled={isPending}
+                              placeholder="******"
+                              {...field}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -138,12 +153,13 @@ function Register() {
                 <FormError message={error} />
                 <FormSuccess message={success} />
                 <div>
-                  <button
+                  <Button
+                    disabled={isPending}
                     type="submit"
                     className="inline-flex w-full items-center justify-center rounded-md bg-purple-500  px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-purple-700"
                   >
                     Create Account <ArrowRight className="ml-2" size={16} />
-                  </button>
+                  </Button>
                 </div>
               </div>
             </form>
