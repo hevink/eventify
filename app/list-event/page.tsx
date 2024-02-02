@@ -251,7 +251,7 @@ const ListEvent = () => {
           <div className="block md:flex items-center w-full gap-3 py-1">
             <FormField
               control={form.control}
-              name="capacity"
+              name="capacity" 
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormLabel>Capacity</FormLabel>
@@ -305,7 +305,7 @@ const ListEvent = () => {
               )}
             />
           </div>
-          
+
           <Button type="submit">Submit</Button>
         </form>
       </Form>
