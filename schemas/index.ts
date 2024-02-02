@@ -78,4 +78,14 @@ export const eventSchema = z.object({
   image: z.string().min(1, {
     message: "Image must be required.",
   }),
+  categories: z.string().min(1, {
+    message: "Categories must be required.",
+  }),
+  tags: z.string(),
+  capacity: z.string().min(1, {
+    message: "Capacity must be required.",
+  }),
+  speakers: z.string().min(1, {
+    message: "Speker must be required.",
+  }),
 });

@@ -107,18 +107,15 @@ model Event {
   state       String
   country     String
   street      String
-  //
-  // capacity             Int?
+  capacity    Int?
+  categories  String?
+  speakers    String?
+  duration    Int?
+  tags        String?
+  // featured    Boolean?
+  // agenda               String?
   // isPublic             Boolean
   // registrationDeadline DateTime?
-  // categories           String[]
-  // speakers             String
-  // agenda               String?
-  // duration             Int?
-  // registrationLink     String?
-  // livestreamLink       String?
-  // tags                 String[]
-  // featured             Boolean?
   // Pass                 Pass[]
   // Review      Review[]
 }

@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
-import { Email } from "./email";
 import { render } from "@react-email/render";
+import { Email } from "./email";
 
 const domain = process.env.NEXT_PUBLIC_APP_URL;
 

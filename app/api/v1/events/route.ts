@@ -20,8 +20,25 @@ export async function POST(request: Request, res: Response) {
   try {
     const body = await request.json();
 
-    const { eventName, description, eventDate, location, organizer, price } =
-      body;
+    console.log(body);
+
+    const {
+      eventName,
+      description,
+      eventDate,
+      street,
+      organizer,
+      price,
+      city,
+      pin,
+      state,
+      country,
+      image,
+      categories,
+      tags,
+      capacity,
+      speakers,
+    } = body;
 
     const session = await auth();
 
@@ -31,9 +48,16 @@ export async function POST(request: Request, res: Response) {
         name: eventName,
         description,
         date: eventDate,
-        location,
         organizer,
         price,
+        city,
+        pin,
+        state,
+        country,
+        street,
+        categories, // Include the 'categories' property
+        speakers, // Include the 'speakers' property
+        tags, // Include the 'tags' property
       },
     });
 

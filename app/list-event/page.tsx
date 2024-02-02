@@ -33,11 +33,12 @@ import { UploadButton, UploadDropzone } from "@/lib/uploadthing";
 const ListEvent = () => {
   const { toast } = useToast();
 
-  const form = useForm<z.infer<typeof eventSchema>>({
-    resolver: zodResolver(eventSchema),
+  const form = useForm({
+    // resolver: zodResolver(eventSchema),
   });
 
-  function onSubmit(values: z.infer<typeof eventSchema>) {
+  function onSubmit(values: any) {
+    console.log(values);
     axios
       .post("http://localhost:3000/api/v1/events", values)
       .then((response) => {
@@ -228,20 +229,83 @@ const ListEvent = () => {
 
           <Heading Title="Image 📳" titleClassName="text-2xl border-b py-1" />
 
-          <UploadDropzone
-            className="border-2 border-dashed border-gray-300 rounded-md p-4 w-full"
-            endpoint="imageUploader"
-            onClientUploadComplete={(res) => {
-              // Do something with the response
-              console.log("Files: ", res);
-              alert("Upload Completed");
-            }}
-            onUploadError={(error: Error) => {
-              // Do something with the error.
-              alert(`ERROR! ${error.message}`);
-            }}
+          <FormField
+            control={form.control}
+            name="image"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <UploadButton
+                  endpoint="imageUploader"
+                  onClientUploadComplete={(res) => {
+                    console.log("Files: ", res);
+                    alert("Upload Completed");
+                  }}
+                  onUploadError={(error: Error) => {
+                    // Do something with the error.
+                    alert(`ERROR! ${error.message}`);
+                  }}
+                />
+              </FormItem>
+            )}
           />
+          <div className="block md:flex items-center w-full gap-3 py-1">
+            <FormField
+              control={form.control}
+              name="capacity"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Capacity</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter capacity" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
+            <FormField
+              control={form.control}
+              name="categories"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Categories</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter categorie" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="speakers"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Speakers</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter speakers" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="tags"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Tags</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter tags" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          
           <Button type="submit">Submit</Button>
         </form>
       </Form>
