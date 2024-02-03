@@ -16,48 +16,18 @@ export async function GET(req: Request, res: Response) {
   }
 }
 
-export async function POST(request: Request, res: Response) {
+export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    console.log(body);
-
-    const {
-      eventName,
-      description,
-      eventDate,
-      street,
-      organizer,
-      price,
-      city,
-      pin,
-      state,
-      country,
-      image,
-      categories,
-      tags,
-      capacity,
-      speakers,
-    } = body;
-
     const session = await auth();
+
+    const userId = session?.user.id || "";
 
     const EventCreate = await prisma.event.create({
       data: {
-        eventId: session?.user.id || "",
-        name: eventName,
-        description,
-        date: eventDate,
-        organizer,
-        price,
-        city,
-        pin,
-        state,
-        country,
-        street,
-        categories, // Include the 'categories' property
-        speakers, // Include the 'speakers' property
-        tags, // Include the 'tags' property
+        eventId: userId,
+        ...body,
       },
     });
 
@@ -67,8 +37,11 @@ export async function POST(request: Request, res: Response) {
       message: "Event created successfully",
     });
   } catch (error) {
+    console.log("error", error);
+
     return NextResponse.json({
-      error,
+      error: "An error occurred",
+      status: 500,
     });
   }
 }

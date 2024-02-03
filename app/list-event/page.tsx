@@ -1,6 +1,5 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
@@ -28,19 +27,29 @@ import axios from "axios";
 import { useToast } from "@/components/ui/use-toast";
 import { eventSchema } from "@/schemas";
 import Image from "next/image";
-import { UploadButton, UploadDropzone } from "@/lib/uploadthing";
+import React, { useCallback, useState } from "react";
+import { CldUploadWidget } from "next-cloudinary";
+import { Textarea } from "@/components/ui/textarea";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const ListEvent = () => {
   const { toast } = useToast();
 
-  const form = useForm({
-    // resolver: zodResolver(eventSchema),
+  const form = useForm<z.infer<typeof eventSchema>>({
+    resolver: zodResolver(eventSchema),
   });
 
-  function onSubmit(values: any) {
-    console.log(values);
+  console.log(form.formState.errors);
+
+  const [value, setValue] = useState<string | null>(null);
+
+  function onSubmit(values: z.infer<typeof eventSchema>) {
+    const extendedValues = {
+      ...values,
+      image: value,
+    };
     axios
-      .post("http://localhost:3000/api/v1/events", values)
+      .post("http://localhost:3000/api/v1/events", extendedValues)
       .then((response) => {
         if (response.status === 200) {
           form.reset();
@@ -55,124 +64,147 @@ const ListEvent = () => {
       });
   }
 
+  const handleUpload = useCallback((result: any) => {
+    setValue(result.info.secure_url);
+  }, []);
+
   return (
     <MaxWidthWrapper className={"max-w-5xl"}>
       <Heading
         className="py-10"
         Title="List Your Event 🎊"
-        Subtitle={"List your Event Here"}
+        Subtitle="List your event and let the world know about it. 🌍"
       />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
-          <FormField
-            control={form.control}
-            name="eventName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Event-Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="New Year Party 2024 🎆" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="eventDate"
-            render={({ field }) => (
-              <FormItem className="flex flex-col">
-                <FormLabel>Event Date</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant={"outline"}
-                        className={cn(
-                          "w-[240px] pl-3 text-left font-normal",
-                          !field.value && "text-muted-foreground"
-                        )}
-                      >
-                        {field.value ? (
-                          format(field.value, "PPP")
-                        ) : (
-                          <span>Pick a date</span>
-                        )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={field.onChange}
-                      disabled={(date) =>
-                        date < new Date() || date < new Date("1900-01-01")
-                      }
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="organizer"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Organizer Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="Organizer Name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="price"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Price</FormLabel>
-                <FormControl>
-                  <Input placeholder="6969" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Description</FormLabel>
-                <FormControl>
-                  <Input placeholder="Description" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Heading Title="Location 📍 " titleClassName="text-2xl border-b" />
-          <FormField
-            control={form.control}
-            name="street"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>street</FormLabel>
-                <FormControl>
-                  <Input placeholder="street" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <Heading Title="Event " titleClassName="text-2xl border-b py-1" />
+          <div className="block md:grid lg:grid-cols-2 xl:grid-cols-2 items-center w-full gap-3 py-1">
+            <FormField
+              control={form.control}
+              name="eventName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Event-Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="New Year Party 2024 🎆" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="price"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Price</FormLabel>
+                  <FormControl>
+                    <Input placeholder="6969" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="eventStartDate"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Event Start Date</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-full pl-3 text-left font-normal mt-1 ",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={(date) =>
+                          date < new Date() || date < new Date("1900-01-01")
+                        }
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="eventEndDate"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Event End Date</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-full pl-3 text-left font-normal mt-1 ",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={(date) =>
+                          date < new Date() || date < new Date("1900-01-01")
+                        }
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
 
-          <div className="block md:flex items-center w-full gap-3 py-1">
+          <Heading Title="Location 📍 " titleClassName="text-2xl border-b" />
+          <div className="block md:grid lg:grid-cols-2 xl:grid-cols-2 items-center w-full gap-3 py-1">
+            <FormField
+              control={form.control}
+              name="street"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>street</FormLabel>
+                  <FormControl>
+                    <Input placeholder="street" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <FormField
               control={form.control}
               name="city"
@@ -227,31 +259,10 @@ const ListEvent = () => {
             />
           </div>
 
-          <Heading Title="Image 📳" titleClassName="text-2xl border-b py-1" />
-
-          <FormField
-            control={form.control}
-            name="image"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <UploadButton
-                  endpoint="imageUploader"
-                  onClientUploadComplete={(res) => {
-                    console.log("Files: ", res);
-                    alert("Upload Completed");
-                  }}
-                  onUploadError={(error: Error) => {
-                    // Do something with the error.
-                    alert(`ERROR! ${error.message}`);
-                  }}
-                />
-              </FormItem>
-            )}
-          />
-          <div className="block md:flex items-center w-full gap-3 py-1">
+          <div className="block md:grid lg:grid-cols-2 xl:grid-cols-2 items-center w-full gap-3 py-1">
             <FormField
               control={form.control}
-              name="capacity" 
+              name="capacity"
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormLabel>Capacity</FormLabel>
@@ -306,6 +317,66 @@ const ListEvent = () => {
             />
           </div>
 
+          <Heading Title="Image 📳" titleClassName="text-2xl border-b py-1" />
+
+          <div className="flex w-full gap-3">
+            <div className=" w-1/2">
+              <CldUploadWidget
+                onUpload={handleUpload}
+                uploadPreset="jloy1x1e"
+                options={{
+                  maxFiles: 1,
+                }}
+              >
+                {({ open }) => {
+                  return (
+                    <div
+                      onClick={() => {
+                        open?.();
+                      }}
+                      className="relative rounded-xl cursor-pointer hover:opacity-70  transition border-2 p-20  flex flex-col justify-center items-center gap-4 "
+                    >
+                      <PlusCircleIcon className="h-12 w-12" />
+                      <div className="font-semibold text-lg">
+                        Click To Upload
+                      </div>
+                      <div className="">
+                        {value && (
+                          <div className="absolute inset-0 w-full h-full">
+                            <Image
+                              alt="upload "
+                              fill
+                              style={{ objectFit: "cover" }}
+                              src={value}
+                              className="rounded-xl"
+                            />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                }}
+              </CldUploadWidget>
+            </div>
+            <div className=" w-1/2 h-full">
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Description"
+                        className="h-[270px] rounded-xl"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
           <Button type="submit">Submit</Button>
         </form>
       </Form>
@@ -314,174 +385,3 @@ const ListEvent = () => {
 };
 
 export default ListEvent;
-
-{
-  /* <Heading Title="Contact 📳" titleClassName="text-2xl border-b py-1" />
-
-          <div className="block md:flex items-center w-full gap-3">
-            <FormField
-              control={form.control}
-              name="contactName"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel>Contact Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Contact Name" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="contactEmail"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel>Contact Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Contact Email" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="contactPhone"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel>Contact Phone</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Contact Phone" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div> */
-}
-{
-  /* <Heading Title="Social Media 📱" titleClassName="text-2xl border-b" />
-
-          <FormField
-            control={form.control}
-            name="facebook"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Facebook</FormLabel>
-                <FormControl>
-                  <Input placeholder="Facebook" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="twitter"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Twitter</FormLabel>
-                <FormControl>
-                  <Input placeholder="Twitter" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="instagram"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Instagram</FormLabel>
-                <FormControl>
-                  <Input placeholder="Instagram" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="youtube"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Youtube</FormLabel>
-                <FormControl>
-                  <Input placeholder="Youtube" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          /> */
-}
-
-{
-  /* <Heading Title="Event Image 📷" titleClassName="text-2xl border-b" />
-
-          <FormField
-            control={form.control}
-            name="image"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Image</FormLabel>
-                <FormControl>
-                  <Input placeholder="Image" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          /> */
-}
-
-{
-  /* <Heading Title="Tickets 🎟️" titleClassName="text-2xl border-b" />
-
-          <FormField
-            control={form.control}
-            name="ticketName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Ticket Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="Ticket Name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="ticketPrice"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Ticket Price</FormLabel>
-                <FormControl>
-                  <Input placeholder="Ticket Price" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="ticketQuantity"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Ticket Quantity</FormLabel>
-                <FormControl>
-                  <Input placeholder="Ticket Quantity" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          /> */
-}

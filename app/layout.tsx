@@ -5,10 +5,7 @@ import { Navbar } from "@/components/Navbar";
 import { Toaster } from "@/components/ui/toaster";
 import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
-
-import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
-import { extractRouterConfig } from "uploadthing/server";
-import { ourFileRouter } from "./api/uploadthing/core";
+import { ThemeProvider } from "@/providers/theme-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,10 +24,16 @@ export default async function RootLayout({
     <SessionProvider session={session}>
       <html lang="en">
         <body className={inter.className}>
-          
-          <Navbar />
-          <Toaster />
-          {children}
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Navbar />
+            <Toaster />
+            {children}
+          </ThemeProvider>
         </body>
       </html>
     </SessionProvider>

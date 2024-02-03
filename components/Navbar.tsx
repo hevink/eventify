@@ -8,6 +8,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { UserButton } from "./UserButton";
 import { useSession } from "next-auth/react";
+import { ModeToggle } from "./Mode-toggle";
 
 const menuItems = [
   {
@@ -35,7 +36,7 @@ export function Navbar() {
   };
 
   return (
-    <div className="relative w-full bg-white border-b">
+    <div className="relative w-full border-b">
       <MaxWidthWrapper>
         <div className="mx-auto flex items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
           <div className="inline-flex items-center space-x-2">
@@ -51,11 +52,10 @@ export function Navbar() {
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className={`text-sm font-semibold ${
-                      pathName === item.href
-                        ? " border-b-2 border-blue-600 bg-gradient-to-r from-purple-600 via-blue-500 to-blue-400 bg-clip-text text-transparent"
-                        : "text-gray-800 hover:text-gray-900"
-                    }`}
+                    className={`text-sm font-semibold ${pathName === item.href
+                      ? " border-b-2 border-blue-600 bg-gradient-to-r from-purple-600 via-blue-500 to-blue-400 bg-clip-text text-transparent"
+                      : ""
+                      }`}
                   >
                     {item.name}
                   </Link>
@@ -64,6 +64,7 @@ export function Navbar() {
             </ul>
           </div>
           <div className="hidden lg:block items-center ">
+          <ModeToggle />
             {!session && (
               <>
                 <Link href="/login">
@@ -113,11 +114,10 @@ export function Navbar() {
                         <Link
                           href={item.href}
                           key={item.name}
-                          className={`text-sm font-semibold ${
-                            pathName === item.href
-                              ? "bg-gradient-to-r from-purple-600 via-blue-500 to-blue-400 bg-clip-text text-transparent"
-                              : "text-gray-800 hover:text-gray-900"
-                          }`}
+                          className={`text-sm font-semibold ${pathName === item.href
+                            ? "bg-gradient-to-r from-purple-600 via-blue-500 to-blue-400 bg-clip-text text-transparent"
+                            : "text-gray-800 hover:text-gray-900"
+                            }`}
                         >
                           {item.name}
                         </Link>

@@ -18,10 +18,10 @@ const Heading: FC<Props> = ({
 }: Props) => {
   return (
     <div className={className}>
-      <h1 className={cn("text-4xl font-bold text-gray-700", titleClassName)}>
+      <h1 className={cn("text-4xl font-bold", titleClassName)}>
         {Title}
       </h1>
-      <h3 className="font-light text-gray-500">{Subtitle}</h3>
+      <h3 className="font-light">{Subtitle}</h3>
     </div>
   );
 };

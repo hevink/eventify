@@ -90,57 +90,24 @@ model TwoFactorConfirmation {
 }
 
 model Event {
-  id          String    @id @default(cuid()) @map("_id")
-  eventId     String
-  name        String
-  date        DateTime?
-  organizer   String
-  description String
-  image       String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  price       String
-  User        User      @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  //? Location fields
-  city        String
-  pin         String
-  state       String
-  country     String
-  street      String
-  capacity    Int?
-  categories  String?
-  speakers    String?
-  duration    Int?
-  tags        String?
-  // featured    Boolean?
-  // agenda               String?
-  // isPublic             Boolean
-  // registrationDeadline DateTime?
-  // Pass                 Pass[]
-  // Review      Review[]
+  id             String   @id @default(cuid()) 
+  eventId        String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  User           User     @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  eventName      String
+  price          String
+  eventStartDate DateTime
+  eventEndDate   DateTime
+  street         String
+  city           String
+  state          String
+  country        String
+  pin            String
+  capacity       String
+  categories     String
+  speakers       String
+  tags           String
+  description    String
+  image          String
 }
-
-// model Pass {
-//   id          String   @id @default(cuid()) @map("_id")
-//   passId      String
-//   createdAt   DateTime @default(now())
-//   updatedAt   DateTime @updatedAt
-//   price       String
-//   isPurchased Boolean  @default(false)
-//   eventId     String
-//   userId      String
-//   event       Event    @relation(fields: [eventId], references: [id])
-//   user        User     @relation(fields: [userId], references: [id])
-// }
-
-// model Review {
-//   id        String   @id @default(cuid()) @map("_id")
-//   rating    Float
-//   comment   String?
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-//   eventId   String
-//   event     Event    @relation(fields: [eventId], references: [id])
-//   userId    String
-//   user      User     @relation(fields: [userId], references: [id])
-// }
