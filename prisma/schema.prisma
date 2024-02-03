@@ -90,7 +90,7 @@ model TwoFactorConfirmation {
 }
 
 model Event {
-  id             String   @id @default(cuid()) 
+  id             String   @id @default(cuid())
   eventId        String
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
@@ -99,7 +99,8 @@ model Event {
   price          String
   eventStartDate DateTime
   eventEndDate   DateTime
-  street         String
+  time           String
+  venue          String
   city           String
   state          String
   country        String

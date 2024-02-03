@@ -187,18 +187,31 @@ const ListEvent = () => {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="time"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Time</FormLabel>
+                  <FormControl>
+                    <Input type="time" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
 
           <Heading Title="Location 📍 " titleClassName="text-2xl border-b" />
           <div className="block md:grid lg:grid-cols-2 xl:grid-cols-2 items-center w-full gap-3 py-1">
             <FormField
               control={form.control}
-              name="street"
+              name="venue"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>street</FormLabel>
+                  <FormLabel>Venue</FormLabel>
                   <FormControl>
-                    <Input placeholder="street" {...field} />
+                    <Input placeholder="Venue" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -319,8 +332,8 @@ const ListEvent = () => {
 
           <Heading Title="Image 📳" titleClassName="text-2xl border-b py-1" />
 
-          <div className="flex w-full gap-3">
-            <div className=" w-1/2">
+          <div className="block md:flex w-full gap-3">
+            <div className="w-full md:w-1/2">
               <CldUploadWidget
                 onUpload={handleUpload}
                 uploadPreset="jloy1x1e"
@@ -358,7 +371,7 @@ const ListEvent = () => {
                 }}
               </CldUploadWidget>
             </div>
-            <div className=" w-1/2 h-full">
+            <div className="w-full md:w-1/2 mt-2 md:mt-0">
               <FormField
                 control={form.control}
                 name="description"
@@ -367,7 +380,7 @@ const ListEvent = () => {
                     <FormControl>
                       <Textarea
                         placeholder="Description"
-                        className="h-[270px] rounded-xl"
+                        className="h-[270px] rounded-xl w-full"
                         {...field}
                       />
                     </FormControl>

@@ -37,7 +37,8 @@ export const eventSchema = z.object({
   price: z.string().min(1, { message: "Price is required" }),
   eventStartDate: z.date(),
   eventEndDate: z.date(),
-  street: z.string().min(1, { message: "Street is required" }),
+  time: z.string().min(1, { message: "Time is required" }),
+  venue: z.string().min(1, { message: "Venue is required" }),
   city: z.string().min(1, { message: "City is required" }),
   state: z.string().min(1, { message: "State is required" }),
   country: z.string().min(1, { message: "Country is required" }),
@@ -46,5 +47,8 @@ export const eventSchema = z.object({
   categories: z.string().min(1, { message: "Categories is required" }),
   speakers: z.string().min(1, { message: "Speakers is required" }),
   tags: z.string().min(1, { message: "Tags is required" }),
-  description: z.string().min(1, { message: "Description is required" }).max(500, { message: "Description should not exceed 500 characters" }),
+  description: z
+    .string()
+    .min(1, { message: "Description is required" })
+    .max(500, { message: "Description should not exceed 500 characters" }),
 });

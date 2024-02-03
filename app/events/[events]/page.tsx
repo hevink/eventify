@@ -1,6 +1,7 @@
 "use client";
 
-import axios from "axios";
+import { getEventById } from "@/actions/getEventById";
+import Image from "next/image";
 import React, { useEffect } from "react";
 
 type IParams = {
@@ -8,18 +9,15 @@ type IParams = {
 };
 
 const Event = ({ params }: { params: IParams }) => {
-  useEffect(() => {
-    axios
-      .get("http://localhost:3000/api/v1/events")
-      .then((res) => {
-        console.log(res.data.events);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  const [events, setEvents] = React.useState<string[]>([]);
 
-  return <div>{params.events}</div>;
+  useEffect(() => {
+    getEventById(params.events).then((res) => {
+      setEvents(res);
+    });
+  }, [params.events]);
+
+  return <>comeing soon</>;
 };
 
 export default Event;
