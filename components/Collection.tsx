@@ -1,10 +1,11 @@
 // import { IEvent } from "@/lib/database/models/event.model";
 import React from "react";
 import Card from "./Card";
+import { Event } from "@prisma/client";
 // import Pagination from "./Pagination";
 
 type CollectionProps = {
-  data: string[];
+  data: Event[];
   emptyTitle: string;
   emptyStateSubtext: string;
   limit: number;
@@ -33,7 +34,7 @@ const Collection = ({
               const hidePrice = collectionType === "My_Tickets";
 
               return (
-                <li key={event} className="flex justify-center">
+                <li key={event.id} className="flex justify-center">
                   <Card
                     event={event}
                     hasOrderLink={hasOrderLink}

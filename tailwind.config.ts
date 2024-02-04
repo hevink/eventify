@@ -59,6 +59,10 @@ const config = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      backgroundImage: {
+        "dotted-pattern": "url('/assets/images/dotted-pattern.png')",
+        "hero-img": "url('/assets/images/hero.png')",
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },

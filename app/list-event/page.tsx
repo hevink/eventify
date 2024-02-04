@@ -371,7 +371,7 @@ const ListEvent = () => {
                 }}
               </CldUploadWidget>
             </div>
-            <div className="w-full md:w-1/2 mt-2 md:mt-0">
+            <div className="w-full md:w-1/2 mt-2 md:mt-0 ">
               <FormField
                 control={form.control}
                 name="description"
