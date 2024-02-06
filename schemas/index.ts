@@ -35,6 +35,8 @@ export const NewPasswordSchema = z.object({
 export const eventSchema = z.object({
   eventName: z.string().min(1, { message: "Event name is required" }),
   price: z.string().min(1, { message: "Price is required" }),
+  // isFree: z.boolean(),
+  organizer: z.string().min(1, { message: "Organizer is required" }),
   eventStartDate: z.date(),
   eventEndDate: z.date(),
   time: z.string().min(1, { message: "Time is required" }),

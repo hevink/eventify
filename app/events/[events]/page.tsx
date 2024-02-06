@@ -1,6 +1,7 @@
 "use client";
 
 import { getEventById } from "@/actions/getEventById";
+import CheckoutButton from "@/components/CheckoutButton";
 import Collection from "@/components/Collection";
 import { Event } from "@prisma/client";
 import axios from "axios";
@@ -67,7 +68,7 @@ const Event = ({ params }: { params: IParams }) => {
               </div>
             </div>
 
-            {/* <CheckoutButton event={event} /> */}
+            <CheckoutButton event={event} />
 
             <div className="flex flex-col gap-5">
               <div className="flex gap-2 md:gap-3">
@@ -108,7 +109,7 @@ const Event = ({ params }: { params: IParams }) => {
           collectionType="All_Events"
           limit={3}
           page={"1"} // page={searchParams.page as string}
-          // totalPages={relatedEvents?.totalPages}
+        // totalPages={relatedEvents?.totalPages}
         />
       </section>
     </>

@@ -200,6 +200,19 @@ const ListEvent = () => {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="organizer"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>organizer</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Billie elish" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
 
           <Heading Title="Location 📍 " titleClassName="text-2xl border-b" />

@@ -31,7 +31,7 @@ model User {
   accounts                Account[]
   towFactorConfirmation   TwoFactorConfirmation?
   events                  Event[]
-  // passes                  Pass[]
+  order                   Order[]
   // reviews                 Review[]
 }
 
@@ -94,7 +94,7 @@ model Event {
   eventId        String
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
-  User           User     @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  organizer    String
   eventName      String
   price          String
   eventStartDate DateTime
@@ -111,4 +111,18 @@ model Event {
   tags           String
   description    String
   image          String
+  User           User     @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  Order          Order[]
+}
+
+model Order {
+  id          String   @id @default(cuid()) @map("_id")
+  createdAt   DateTime @default(now())
+  stripeId    String   @unique
+  totalAmount String
+  eventId     String
+  buyerId     String
+
+  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  buyer User  @relation(fields: [buyerId], references: [id], onDelete: Cascade)
 }
