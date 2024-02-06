@@ -52,7 +52,7 @@ export function Email({ link }: AWSVerifyEmailProps) {
                 <Text style={verifyText}>Verification code</Text>
 
                 <Link href={link} style={h1}>
-                  Click Here To Confirm Your Email
+                  Click here
                 </Link>
                 <Text style={validityText}>
                   (This code is valid for 1 hour)
