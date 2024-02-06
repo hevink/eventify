@@ -49,7 +49,7 @@ const ListEvent = () => {
       image: value,
     };
     axios
-      .post("http://localhost:3000/api/v1/events", extendedValues)
+      .post(`${process.env.NEXT_PUBLIC_APP_URL}api/v1/events`, extendedValues)
       .then((response) => {
         if (response.status === 200) {
           form.reset();

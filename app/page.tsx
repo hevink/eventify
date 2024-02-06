@@ -12,7 +12,7 @@ const Event = () => {
   const router = useRouter();
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/v1/events")
+      .get(`${process.env.NEXT_PUBLIC_APP_URL}/api/v1/events`)
       .then((res) => {
         setEvents(res.data.events);
       })
