@@ -28,6 +28,7 @@ export async function POST(request: Request) {
       data: {
         eventId: userId,
         ...body,
+        isFree: false,
       },
     });
 
@@ -40,7 +41,7 @@ export async function POST(request: Request) {
     console.log("error", error);
 
     return NextResponse.json({
-      error: "An error occurred",
+      error: error,
       status: 500,
     });
   }

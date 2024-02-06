@@ -73,42 +73,22 @@ export async function getOrdersByEvent({ eventId }: any) {
   }
 }
 
-// GET ORDERS BY USER
-// export async function getOrdersByUser({
-//   userId,
-//   limit = 3,
-//   page,
-// }: GetOrdersByUserParams) {
-//   try {
-//     await connectToDatabase();
+export async function getOrdersByUser({ userId }: { userId: string }) {
+  const users = await db.order.findMany({
+    where: {
+      buyerId: userId,
+    },
+  });
 
-//     const skipAmount = (Number(page) - 1) * limit;
-//     const conditions = { buyer: userId };
+  return users;
+}
 
-//     const orders = await Order.distinct("event._id")
-//       .find(conditions)
-//       .sort({ createdAt: "desc" })
-//       .skip(skipAmount)
-//       .limit(limit)
-//       .populate({
-//         path: "event",
-//         model: Event,
-//         populate: {
-//           path: "organizer",
-//           model: User,
-//           select: "_id firstName lastName",
-//         },
-//       });
+export async function getEventsByUser({ userId }: { userId: string }) {
+  const events = await db.event.findMany({
+    where: {
+      eventId: userId,
+    },
+  });
 
-//     const ordersCount = await Order.distinct("event._id").countDocuments(
-//       conditions
-//     );
-
-//     return {
-//       data: JSON.parse(JSON.stringify(orders)),
-//       totalPages: Math.ceil(ordersCount / limit),
-//     };
-//   } catch (error) {
-//     handleError(error);
-//   }
-// }
+  return events;
+}

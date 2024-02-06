@@ -94,7 +94,8 @@ model Event {
   eventId        String
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
-  organizer    String
+  organizer      String
+  isFree         Boolean
   eventName      String
   price          String
   eventStartDate DateTime

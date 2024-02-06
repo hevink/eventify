@@ -13,9 +13,11 @@ declare module "next-auth" {
       id: string;
       role: UserRole;
       where: string;
+      isTwoFactorEnabled: boolean;
     } & DefaultSession["user"];
   }
 }
+
 export const {
   handlers: { GET, POST },
   auth,
@@ -70,15 +72,15 @@ export const {
         session.user.role = token.role;
       }
 
-      // if (session.user) {
-      //   session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean;
-      // }
+      if (session.user) {
+        session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean;
+      }
 
-      // if (session.user) {
-      //   session.user.name = token.name;
-      //   session.user.email = token.email;
-      //   session.user.isOAuth = token.isOAuth as boolean;
-      // }
+      if (session.user) {
+        session.user.name = token.name;
+        session.user.email = token.email;
+        // session.user.isOAuth = token.isOAuth as boolean;
+      }
 
       return session;
     },
@@ -96,7 +98,7 @@ export const {
       token.name = existingUser.name;
       token.email = existingUser.email;
       token.role = existingUser.role;
-      // token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
+      token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
 
       return token;
     },

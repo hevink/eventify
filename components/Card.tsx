@@ -1,3 +1,5 @@
+"use client"
+
 import { format } from "date-fns";
 import { CalendarRange } from "lucide-react";
 import { useSession } from "next-auth/react";
