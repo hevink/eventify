@@ -1,5 +1,6 @@
 "use client"
 
+import { Event } from "@prisma/client";
 import { format } from "date-fns";
 import { CalendarRange } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -9,7 +10,7 @@ import React from "react";
 // import { DeleteConfirmation } from "./DeleteConfirmation";
 
 type CardProps = {
-  event: any;
+  event: Event;
   hasOrderLink?: boolean;
   hidePrice?: boolean;
 };
@@ -40,20 +41,20 @@ const Card = ({ event, hasOrderLink, hidePrice }: CardProps) => {
       )}
 
       <div className="flex min-h-[230px] flex-col gap-3 p-5 md:gap-4">
-        {!hidePrice && (
-          <div className="flex gap-2">
-            <span className="p-semibold-14 w-min rounded-full bg-green-100 px-4 py-1 ">
-              {event.isFree ? "FREE" : `$${event.price}`}
-            </span>
-            <p className="p-semibold-14 w-auto rounded-full bg-gray-500/10 px-4 py-1 line-clamp-1">
-              {event?.categories}
-            </p>
-          </div>
-        )}
+        {/* {!hidePrice && ( */}
+        <div className="flex gap-2">
+          <span className="p-semibold-14 w-min rounded-full bg-green-100 px-4 py-1 ">
+            {event.isFree ? "FREE" : `$${event.price}`}
+          </span>
+          <p className="p-semibold-14 w-auto rounded-full bg-gray-500/10 px-4 py-1 line-clamp-1">
+            {event.categories}
+          </p>
+        </div>
+        {/* )} */}
 
         <p className="p-medium-16 p-medium-18 text-grey-500 flex items-center">
           <CalendarRange className="mr-2" />{" "}
-          {format(event?.eventStartDate, "PPP")} - {event?.time}
+          {format(event.eventStartDate, "PPP")} - {event.time}
         </p>
 
         <Link href={`/events/${event.id}`}>
@@ -63,9 +64,9 @@ const Card = ({ event, hasOrderLink, hidePrice }: CardProps) => {
         </Link>
 
         <div className="flex-between w-full">
-          <p className="p-medium-14 md:p-medium-16 text-grey-600">
+          {/* <p className="p-medium-14 md:p-medium-16 text-grey-600">
             {sessionClaims?.user.name}
-          </p>
+          </p> */}
 
           {hasOrderLink && (
             <Link href={`/orders?eventId=${event.id}`} className="flex gap-2">

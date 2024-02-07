@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prismadb";
 import { auth } from "@/auth";
 
-export async function GET(req: Request, res: Response) {
+export async function GET() {
   try {
     const events = await prisma.event.findMany({});
     return NextResponse.json({

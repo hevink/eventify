@@ -42,12 +42,14 @@ export const checkoutOrder = async (order: any) => {
 export const createOrder = async (order: any) => {
   try {
     const newOrder = await db.order.create({
-      ...order,
-      event: order.eventId,
-      buyer: order.buyerId,
+      data: {
+        stripeId: order.stripeId,
+        eventId: order.eventId,
+        buyerId: order.buyerId,
+        totalAmount: order.eventId,
+        eventTitle: order.eventTitle,
+      },
     });
-
-    console.log("New order created", newOrder);
 
     return NextResponse.json({ message: "OK", order: newOrder });
   } catch (error) {
@@ -77,6 +79,9 @@ export async function getOrdersByUser({ userId }: { userId: string }) {
   const users = await db.order.findMany({
     where: {
       buyerId: userId,
+    },
+    select: {
+      event: true,
     },
   });
 

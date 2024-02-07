@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Button } from "./ui/button";
 import { Event } from "@prisma/client";
-import { checkoutOrder } from "@/actions/checkoutOrder";
+import { checkoutOrder, createOrder } from "@/actions/checkoutOrder";
 
 loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
@@ -31,6 +31,7 @@ const Checkout = ({ event, userId }: { event: Event; userId: string }) => {
     };
 
     await checkoutOrder(order);
+    // await createOrder(order);
   };
 
   return (

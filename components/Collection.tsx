@@ -1,4 +1,3 @@
-// import { IEvent } from "@/lib/database/models/event.model";
 import React from "react";
 import Card from "./Card";
 import { Event } from "@prisma/client";
@@ -24,6 +23,7 @@ const Collection = ({
   collectionType,
   urlParamName,
 }: CollectionProps) => {
+
   return (
     <>
       {data?.length > 0 ? (
@@ -32,9 +32,8 @@ const Collection = ({
             {data.map((event) => {
               const hasOrderLink = collectionType === "Events_Organized";
               const hidePrice = collectionType === "My_Tickets";
-
               return (
-                <li key={event.id} className="flex justify-center">
+                <li key={event?.id} className="flex justify-center">
                   <Card
                     event={event}
                     hasOrderLink={hasOrderLink}
