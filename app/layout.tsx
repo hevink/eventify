@@ -30,7 +30,7 @@ export default async function RootLayout({
   return (
     <SessionProvider session={session}>
       <html lang="en">
-        <body className={cn(poppins.className, "cursor-none")}>
+        <body className={cn(poppins.className)}>
           <FollowerPointerCard
             title={
               <TitleComponent
