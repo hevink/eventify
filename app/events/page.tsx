@@ -10,8 +10,8 @@ import React, { useEffect } from "react";
 
 const Event = () => {
   const [events, setEvents] = React.useState<Event[]>([]);
+  const [loading, setLoading] = React.useState(true);
 
-  const router = useRouter();
   useEffect(() => {
     axios
       .get(`${process.env.NEXT_PUBLIC_APP_URL}/api/v1/events`)
@@ -19,11 +19,15 @@ const Event = () => {
         setEvents(res.data.events);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
 
   return (
+    
     <Collection
       data={events}
       emptyTitle="No Events Found"
@@ -31,7 +35,6 @@ const Event = () => {
       collectionType="All_Events"
       limit={6}
       page={"1"}
-    // totalPages={events?.totalPages}
     />
   );
 };

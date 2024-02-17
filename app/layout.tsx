@@ -6,6 +6,10 @@ import { Toaster } from "@/components/ui/toaster";
 import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "@/providers/theme-provider";
+import { Footer } from "@/components/Footer";
+import { FollowerPointerCard } from "@/components/ui/following-pointer";
+import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -26,19 +30,48 @@ export default async function RootLayout({
   return (
     <SessionProvider session={session}>
       <html lang="en">
-        <body className={poppins.className}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
+        <body className={cn(poppins.className, "cursor-none")}>
+          <FollowerPointerCard
+            title={
+              <TitleComponent
+                title={session?.user?.name || "Anonymous"}
+                avatar={session?.user?.image || "/images/avatar.jpg"}
+              />
+            }
           >
-            <Navbar />
-            <Toaster />
-            {children}
-          </ThemeProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <Navbar />
+              <Toaster />
+              {children}
+              <Footer />
+            </ThemeProvider>
+          </FollowerPointerCard>
         </body>
       </html>
     </SessionProvider>
   );
 }
+
+const TitleComponent = ({
+  title,
+  avatar,
+}: {
+  title: string;
+  avatar: string;
+}) => (
+  <div className="flex space-x-2 items-center">
+    <Image
+      src={avatar}
+      height="20"
+      width="20"
+      alt="thumbnail"
+      className="rounded-full border-2 border-white"
+    />
+    <p>{title}</p>
+  </div>
+);

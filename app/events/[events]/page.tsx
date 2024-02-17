@@ -3,12 +3,14 @@
 import { getEventById } from "@/actions/getEventById";
 import CheckoutButton from "@/components/CheckoutButton";
 import Collection from "@/components/Collection";
+import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { Event } from "@prisma/client";
 import axios from "axios";
 import { format } from "date-fns";
 import { Calendar, LocateIcon } from "lucide-react";
 import Image from "next/image";
 import React, { useEffect } from "react";
+import { BeatLoader } from "react-spinners";
 
 type IParams = {
   events: string;
@@ -16,11 +18,19 @@ type IParams = {
 
 const Event = ({ params }: { params: IParams }) => {
   const [event, setEvent] = React.useState<Event | null>();
+  const [loading, setLoading] = React.useState(true);
 
   useEffect(() => {
-    getEventById(params.events).then((res) => {
-      setEvent(res);
-    });
+    getEventById(params.events)
+      .then((res) => {
+        setEvent(res);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      })
+      .finally(() => setLoading(false));
   }, [params.events]);
 
   const [events, setEvents] = React.useState<Event[]>([]);
@@ -36,16 +46,24 @@ const Event = ({ params }: { params: IParams }) => {
       });
   }, []);
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <BeatLoader color="#9333ea" />
+      </div>
+    );
+  }
+
   return (
-    <>
+    <MaxWidthWrapper>
       <section className="flex justify-center bg-primary-50 bg-dotted-pattern bg-contain">
         <div className="grid grid-cols-1 md:grid-cols-2 2xl:max-w-7xl">
           <Image
             src={event?.image ?? ""}
             alt="hero image"
-            width={1000}
-            height={1000}
-            className="h-full min-h-[300px] object-cover object-center"
+            width={100}
+            height={100}
+            className="h-full w-full min-h-[300px] object-cover object-center"
           />
 
           <div className="flex w-full flex-col gap-8 p-5 md:p-10">
@@ -74,7 +92,7 @@ const Event = ({ params }: { params: IParams }) => {
               <div className="flex gap-2 md:gap-3">
                 <Calendar />
                 <div className="p-medium-16 lg:p-regular-20 flex flex-wrap items-center">
-                  <p>{format(event?.eventStartDate ?? new Date(), "PPP")}</p>
+                  <p>{format(event?.eventStartDate ?? new Date(), "PPP")}  </p>
                   <p>{format(event?.eventEndDate ?? new Date(), "PPP")}</p>
                 </div>
               </div>
@@ -112,7 +130,7 @@ const Event = ({ params }: { params: IParams }) => {
         // totalPages={relatedEvents?.totalPages}
         />
       </section>
-    </>
+    </MaxWidthWrapper>
   );
 };
 

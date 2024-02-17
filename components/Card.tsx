@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Event } from "@prisma/client";
 import { format } from "date-fns";
@@ -64,9 +64,9 @@ const Card = ({ event, hasOrderLink, hidePrice }: CardProps) => {
         </Link>
 
         <div className="flex-between w-full">
-          {/* <p className="p-medium-14 md:p-medium-16 text-grey-600">
-            {sessionClaims?.user.name}
-          </p> */}
+          <p className="p-medium-14 md:p-medium-16 text-grey-600 flex items-center gap-1">
+            Organized by <p className="text-purple-500">{event.organizer}</p>
+          </p>
 
           {hasOrderLink && (
             <Link href={`/orders?eventId=${event.id}`} className="flex gap-2">
