@@ -8,5 +8,5 @@ export const getLatestEvent = async () => {
       createdAt: "desc",
     },
   });
-  return event;
+  return [event];
 };
