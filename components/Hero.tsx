@@ -13,6 +13,7 @@ const Hero = () => {
   useEffect(() => {
     getLatestEvent()
       .then((res) => {
+        // @ts-ignore
         setEvent(res);
       })
       .catch((err) => {
@@ -64,7 +65,7 @@ const Hero = () => {
             limit={1}
             page={"1"}
             className="w-full"
-          // totalPages={events?.totalPages}
+            // totalPages={events?.totalPages}
           />
         </div>
       </div>

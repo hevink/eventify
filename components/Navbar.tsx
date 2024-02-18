@@ -28,6 +28,10 @@ const menuItems = [
     name: "List Event",
     href: "/list-event",
   },
+  {
+    name: "Event",
+    href: "/events",
+  },
 ];
 
 export function Navbar() {

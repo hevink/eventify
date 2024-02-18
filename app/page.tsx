@@ -3,6 +3,7 @@
 import Collection from "@/components/Collection";
 import Hero from "@/components/Hero";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import { Spotlight } from "@/components/ui/Spotlight";
 import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
 import { Event } from "@prisma/client";
 import axios from "axios";
@@ -57,6 +58,10 @@ const Event = () => {
 
   return (
     <MaxWidthWrapper>
+      <Spotlight
+        className="-top-40 left-0 md:left-60 md:-top-20"
+        fill="#586ACF"
+      />
       <Hero />
       <h2 className="h2-bold my-5">Popular Events</h2>
       <div className="my-2">
@@ -67,7 +72,7 @@ const Event = () => {
           collectionType="All_Events"
           limit={6}
           page={"1"}
-          // totalPages={events?.totalPages}
+        // totalPages={events?.totalPages}
         />
       </div>
 
