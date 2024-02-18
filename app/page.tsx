@@ -46,8 +46,6 @@ const eventReviews = [
 const Event = () => {
   const [events, setEvents] = React.useState<Event[]>([]);
 
-  console.log(events);
-
   useEffect(() => {
     getAllEvents()
       .then((res) => {
