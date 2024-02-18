@@ -1,5 +1,6 @@
 "use client";
 
+import { getAllEvents } from "@/actions/getAllEvents";
 import Collection from "@/components/Collection";
 import Hero from "@/components/Hero";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
@@ -45,13 +46,15 @@ const eventReviews = [
 const Event = () => {
   const [events, setEvents] = React.useState<Event[]>([]);
 
+  console.log(events);
+
   useEffect(() => {
-    axios
-      .get(`${process.env.NEXT_PUBLIC_APP_URL}/api/v1/events`)
+    getAllEvents()
       .then((res) => {
-        setEvents(res.data.events);
+        // @ts-ignore
+        setEvents(res);
       })
-      .catch((err) => {
+      .catch((err: any) => {
         console.log(err);
       });
   }, []);
@@ -72,7 +75,7 @@ const Event = () => {
           collectionType="All_Events"
           limit={6}
           page={"1"}
-        // totalPages={events?.totalPages}
+          // totalPages={events?.totalPages}
         />
       </div>
 
