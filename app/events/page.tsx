@@ -1,42 +1,43 @@
 "use client";
 
+import { getAllEvents } from "@/actions/getAllEvents";
 import Collection from "@/components/Collection";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import useDebouncedValue from "@/hooks/useDebounce";
 import { Event } from "@prisma/client";
-import axios from "axios";
-import { formatDate } from "date-fns";
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
-
 const Event = () => {
   const [events, setEvents] = React.useState<Event[]>([]);
   const [loading, setLoading] = React.useState(true);
+  const [search, setSearch] = React.useState("");
+
+  const debouncedSearch = useDebouncedValue(search, 300);
 
   useEffect(() => {
-    axios
-      .get(`${process.env.NEXT_PUBLIC_APP_URL}/api/v1/events`)
+    getAllEvents(debouncedSearch)
       .then((res) => {
-        setEvents(res.data.events);
+        // @ts-ignore
+        setEvents(res);
+        setLoading(true);
       })
-      .catch((err) => {
-        console.error(err);
+      .catch((err: any) => {
+        console.log(err);
+        setLoading(true);
       })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
+      .finally(() => setLoading(false));
+  }, [debouncedSearch]);
 
   return (
     <MaxWidthWrapper className="my-2">
       <section className="bg-primary-50 bg-dotted-pattern bg-cover bg-center py-5 md:py-10">
         <div className="wrapper flex items-center justify-center sm:justify-between">
           <h3 className="h3-bold text-center sm:text-left">Events</h3>
-          {/* <Button asChild size="lg" className="button hidden sm:flex">
-            <Link href="/events">Explore More Events</Link>
-          </Button> */}
+          <Input
+            placeholder="Search your favourite events..."
+            className="w-[30%]"
+            onChange={(e) => setSearch(e.target.value)}
+          />
         </div>
       </section>
 
@@ -47,6 +48,7 @@ const Event = () => {
         collectionType="All_Events"
         limit={6}
         page={"1"}
+        loading={loading}
       />
     </MaxWidthWrapper>
   );

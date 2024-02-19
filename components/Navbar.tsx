@@ -74,7 +74,7 @@ export function Navbar() {
           </div>
 
           <div className="hidden lg:block items-center ">
-            <ModeToggle />
+            {/* <ModeToggle /> */}
             {!session && (
               <>
                 <Link href="/login">
