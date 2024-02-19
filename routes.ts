@@ -10,7 +10,8 @@ export const publicRoutes = [
   "/register",
   "/auth/new-verification",
   "/auth/reset",
-  "/auth/new-password"
+  "/auth/new-password",
+  "/events",
 ];
 
 /**
