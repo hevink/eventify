@@ -48,7 +48,7 @@ export default async function RootLayout({
               <Navbar />
               <Toaster />
               {children}
-              <Footer />
+              {/* <Footer /> */}
             </ThemeProvider>
           </FollowerPointerCard>
         </body>
