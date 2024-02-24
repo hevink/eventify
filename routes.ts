@@ -19,12 +19,7 @@ export const publicRoutes = [
  * These routes will redirect logged in users to /settings
  * @type {string[]}
  */
-export const authRoutes = [
-  "/login",
-  "/register",
-  "/error",
-  "/new-password",
-];
+export const authRoutes = ["/login", "/register", "/error", "/new-password"];
 
 /**
  * The prefix for API authentication routes
@@ -38,3 +33,10 @@ export const apiAuthPrefix = "/api/auth";
  * @type {string}
  */
 export const DEFAULT_LOGIN_REDIRECT = "/events";
+
+/**
+ * An array of routes that are used for authentication
+ * These routes will redirect logged in users to /settings
+ * @type {string[]}
+ */
+export const adminRoutes = ["/admin"];
