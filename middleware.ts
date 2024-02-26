@@ -8,8 +8,6 @@ import {
   authRoutes,
   publicRoutes,
 } from "@/routes";
-import { useCurrentRole } from "./hooks/useCurrentRole";
-import { UserRole } from "@prisma/client";
 
 const { auth } = NextAuth(authConfig);
 

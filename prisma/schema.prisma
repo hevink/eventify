@@ -25,7 +25,7 @@ model User {
   emailVerified           DateTime?
   image                   String?
   password                String?
-  isTwoFactorEnabled      Boolean                @default(false)
+  isTwoFactorEnabled      Boolean                @default(true)
   twoFactorConfirmationId String?
   role                    UserRole               @default(USER)
   accounts                Account[]
