@@ -54,3 +54,11 @@ export const eventSchema = z.object({
     .min(1, { message: "Description is required" })
     .max(500, { message: "Description should not exceed 500 characters" }),
 });
+
+export const contactFormSchema = z.object({
+  first_name: z.string(),
+  last_name: z.string(),
+  email: z.string().email(),
+  phone_number: z.string(),
+  message: z.string(),
+});

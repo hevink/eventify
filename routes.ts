@@ -12,6 +12,8 @@ export const publicRoutes = [
   "/auth/reset",
   "/auth/new-password",
   "/events",
+  "/about-us",
+  "/contact-us",
 ];
 
 /**
