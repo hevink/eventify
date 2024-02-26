@@ -3,6 +3,7 @@
 import { getEventById } from "@/actions/getEventById";
 import CheckoutButton from "@/components/CheckoutButton";
 import Collection from "@/components/Collection";
+import { Footer } from "@/components/Footer";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { Event } from "@prisma/client";
 import axios from "axios";
@@ -92,7 +93,7 @@ const Event = ({ params }: { params: IParams }) => {
               <div className="flex gap-2 md:gap-3">
                 <Calendar />
                 <div className="p-medium-16 lg:p-regular-20 flex flex-wrap items-center">
-                  <p>{format(event?.eventStartDate ?? new Date(), "PPP")}  </p>
+                  <p>{format(event?.eventStartDate ?? new Date(), "PPP")} </p>
                   <p>{format(event?.eventEndDate ?? new Date(), "PPP")}</p>
                 </div>
               </div>
@@ -130,6 +131,7 @@ const Event = ({ params }: { params: IParams }) => {
         // totalPages={relatedEvents?.totalPages}
         />
       </section>
+      <Footer />
     </MaxWidthWrapper>
   );
 };

@@ -2,6 +2,7 @@
 
 import { getAllEvents } from "@/actions/getAllEvents";
 import Collection from "@/components/Collection";
+import { Footer } from "@/components/Footer";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { Input } from "@/components/ui/input";
 import useDebouncedValue from "@/hooks/useDebounce";
@@ -50,6 +51,7 @@ const Event = () => {
         page={"1"}
         loading={loading}
       />
+      <Footer />
     </MaxWidthWrapper>
   );
 };

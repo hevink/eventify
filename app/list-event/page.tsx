@@ -31,6 +31,7 @@ import React, { useCallback, useState } from "react";
 import { CldUploadWidget } from "next-cloudinary";
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Footer } from "@/components/Footer";
 
 const ListEvent = () => {
   const { toast } = useToast();
@@ -406,6 +407,7 @@ const ListEvent = () => {
           <Button type="submit">Submit</Button>
         </form>
       </Form>
+      <Footer />
     </MaxWidthWrapper>
   );
 };
