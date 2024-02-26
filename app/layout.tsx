@@ -39,17 +39,17 @@ export default async function RootLayout({
               />
             }
           >
-            <ThemeProvider
+            {/* <ThemeProvider
               attribute="class"
               defaultTheme="system"
               enableSystem
               disableTransitionOnChange
-            >
-              <Navbar />
-              <Toaster />
-              {children}
-              {/* <Footer /> */}
-            </ThemeProvider>
+            > */}
+            <Navbar />
+            <Toaster />
+            {children}
+            {/* <Footer /> */}
+            {/* </ThemeProvider> */}
           </FollowerPointerCard>
         </body>
       </html>

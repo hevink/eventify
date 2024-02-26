@@ -43,8 +43,10 @@ const ListEvent = () => {
   console.log(form.formState.errors);
 
   const [value, setValue] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   function onSubmit(values: z.infer<typeof eventSchema>) {
+    setLoading(true);
     const extendedValues = {
       ...values,
       image: value,
@@ -59,8 +61,10 @@ const ListEvent = () => {
             description: "Your event has been listed successfully",
           });
         }
+        setLoading(false);
       })
       .catch((error) => {
+        setLoading(false);
         console.error("Error:", error);
       });
   }
@@ -404,7 +408,9 @@ const ListEvent = () => {
               />
             </div>
           </div>
-          <Button type="submit">Submit</Button>
+          <Button disabled={loading} type="submit">
+            Submit
+          </Button>
         </form>
       </Form>
       <Footer />
