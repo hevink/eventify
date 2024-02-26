@@ -30,7 +30,6 @@ const Collection = ({
   className,
   loading,
 }: CollectionProps) => {
-  console.log(loading);
   return (
     <MaxWidthWrapper className="">
       {data?.length > 0 ? (

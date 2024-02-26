@@ -31,7 +31,7 @@ const Checkout = ({ event, userId }: { event: Event; userId: string }) => {
     };
 
     await checkoutOrder(order);
-    // await createOrder(order);
+    await createOrder(order);
   };
 
   return (
