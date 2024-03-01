@@ -58,7 +58,7 @@ export const UserButton = () => {
             Profile
           </DropdownMenuItem>
         </Link>
-        <Link href="/admin">
+        <Link href="/admin/dashboard">
           <DropdownMenuItem>
             <AudioWaveformIcon className="h-4 w-4 mr-2" />
             Admin

@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
-import getBookings from "@/actions/getBookings";
-import { Order } from "@prisma/client";
+import { Event } from "@prisma/client";
+import { getAllEvents } from "@/actions/getAllEvents";
 
-async function getData(): Promise<Order[]> {
-  const data = await getBookings();
-  return data.data as Order[];
+async function getData(): Promise<Event[]> {
+  const data = await getAllEvents();
+
+  return data as Event[];
 }
 
 export default async function Admin() {
@@ -19,7 +20,7 @@ export default async function Admin() {
             <Package2Icon className="h-6 w-6" />
             <span className="sr-only">Home</span>
           </Link>
-          <h1 className="font-semibold text-lg">Recent Event Bookings</h1>
+          <h1 className="font-semibold text-lg">Recent Events</h1>
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
           <div className="border shadow-sm rounded-lg p-2">

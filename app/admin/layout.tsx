@@ -1,8 +1,14 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
-const layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = ({ children }: { children: React.ReactNode }) => {
+  const pathName = usePathname();
+
   return (
     <div>
       <div className="h-screen w-full overflow-hidden bg-gray-100/50 dark:bg-gray-800/50">
@@ -22,8 +28,12 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                 <ul className="flex-1">
                   <li className="h-[50px]">
                     <Link
-                      className="flex h-full items-center px-4 text-sm font-medium text-gray-500
-                      dark:text-gray-400"
+                      className={cn(
+                        "flex h-full items-center px-4 text-sm font-medium text-gray-500 dark:text-gray-400",
+                        pathName === "/admin/dashboard"
+                          ? "bg-gray-200/50 dark:bg-gray-800/50 text-gray-900"
+                          : ""
+                      )}
                       href="/admin/dashboard"
                     >
                       Dashboard
@@ -31,11 +41,15 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                   </li>
                   <li className="h-[50px]">
                     <Link
-                      className="flex h-full items-center px-4 text-sm font-medium text-gray-500
-                      dark:text-gray-400"
-                      href="#"
+                      className={cn(
+                        "flex h-full items-center px-4 text-sm font-medium text-gray-500 dark:text-gray-400",
+                        pathName === "/admin/events"
+                          ? "bg-gray-200/50 dark:bg-gray-800/50 text-gray-900"
+                          : ""
+                      )}
+                      href="/admin/events"
                     >
-                      Orders
+                      Events
                     </Link>
                   </li>
                   <li className="h-[50px]">
@@ -79,7 +93,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
             </div>
           </div>
           <div className="flex flex-col w-full">
-            <header className="flex h-16 items-center border-b border-gray-200/50 dark:border-gray-800/50 px-4">
+            <header className="flex h-16 md:h-0 items-center border-b border-gray-200/50 dark:border-gray-800/50 px-4">
               <Button
                 className="rounded-md md:hidden"
                 size="icon"
@@ -88,33 +102,8 @@ const layout = ({ children }: { children: React.ReactNode }) => {
                 <ChevronLeftIcon className="h-6 w-6" />
                 <span className="sr-only">Toggle sidebar</span>
               </Button>
-              <div className="flex-1 ml-4 text-lg font-semibold">Catalog</div>
-              <div className="flex items-center gap-4 md:ml-auto">
-                <Button className="rounded-full" size="icon" variant="outline">
-                  <SearchIcon className="h-4 w-4" />
-                  <span className="sr-only">Search</span>
-                </Button>
-                <Button className="rounded-full" size="icon" variant="outline">
-                  <BellIcon className="h-4 w-4" />
-                  <span className="sr-only">Notifications</span>
-                </Button>
-                <Button className="rounded-full" size="icon" variant="outline">
-                  <img
-                    alt="Avatar"
-                    className="rounded-full"
-                    height={32}
-                    src="/placeholder.svg"
-                    style={{
-                      aspectRatio: "32/32",
-                      objectFit: "cover",
-                    }}
-                    width={32}
-                  />
-                  <span className="sr-only">Toggle user menu</span>
-                </Button>
-              </div>
             </header>
-            <main className="flex-1 p-4 overflow-y-auto">{children}</main>
+            <main className="flex-1 overflow-y-auto">{children}</main>
           </div>
         </div>
       </div>
@@ -122,7 +111,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default layout;
+export default Layout;
 
 function PackageIcon(props: any) {
   return (
