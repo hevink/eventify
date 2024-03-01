@@ -1,9 +1,12 @@
-import React from 'react'
+import { Admin } from "@/components/component/admin";
+import React from "react";
 
 const page = () => {
-    return (
-        <div>page</div>
-    )
-}
+  return (
+    <div>
+      <Admin />
+    </div>
+  );
+};
 
-export default page
+export default page;

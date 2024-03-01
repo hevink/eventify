@@ -31,26 +31,26 @@ export default async function RootLayout({
     <SessionProvider session={session}>
       <html lang="en">
         <body className={cn(poppins.className)}>
-          <FollowerPointerCard
+          {/* <FollowerPointerCard
             title={
               <TitleComponent
                 title={session?.user?.name || "Anonymous"}
                 avatar={session?.user?.image || "/images/avatar.jpg"}
               />
             }
-          >
-            {/* <ThemeProvider
+          > */}
+          {/* <ThemeProvider
               attribute="class"
               defaultTheme="system"
               enableSystem
               disableTransitionOnChange
             > */}
-            <Navbar />
-            <Toaster />
-            {children}
-            {/* <Footer /> */}
-            {/* </ThemeProvider> */}
-          </FollowerPointerCard>
+          <Navbar />
+          <Toaster />
+          {children}
+          {/* <Footer /> */}
+          {/* </ThemeProvider> */}
+          {/* </FollowerPointerCard> */}
         </body>
       </html>
     </SessionProvider>

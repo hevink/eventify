@@ -9,6 +9,7 @@ import {
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import {
+  AudioWaveformIcon,
   CalendarDays,
   ChevronDown,
   LogOutIcon,
@@ -55,6 +56,12 @@ export const UserButton = () => {
           <DropdownMenuItem>
             <User2Icon className="h-4 w-4 mr-2" />
             Profile
+          </DropdownMenuItem>
+        </Link>
+        <Link href="/admin">
+          <DropdownMenuItem>
+            <AudioWaveformIcon className="h-4 w-4 mr-2" />
+            Admin
           </DropdownMenuItem>
         </Link>
       </DropdownMenuContent>
