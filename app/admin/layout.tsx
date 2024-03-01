@@ -52,42 +52,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                       Events
                     </Link>
                   </li>
-                  <li className="h-[50px]">
-                    <Link
-                      className="flex h-full items-center px-4 text-sm font-medium text-gray-500
-                      dark:text-gray-400"
-                      href="#"
-                    >
-                      Catalog
-                    </Link>
-                  </li>
-                  <li className="h-[50px]">
-                    <Link
-                      className="flex h-full items-center px-4 text-sm font-medium text-gray-500
-                      dark:text-gray-400"
-                      href="#"
-                    >
-                      Customers
-                    </Link>
-                  </li>
-                  <li className="h-[50px]">
-                    <Link
-                      className="flex h-full items-center px-4 text-sm font-medium text-gray-500
-                      dark:text-gray-400"
-                      href="#"
-                    >
-                      Marketing
-                    </Link>
-                  </li>
-                  <li className="h-[50px]">
-                    <Link
-                      className="flex h-full items-center px-4 text-sm font-medium text-gray-500
-                      dark:text-gray-400"
-                      href="#"
-                    >
-                      Settings
-                    </Link>
-                  </li>
                 </ul>
               </nav>
             </div>
