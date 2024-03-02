@@ -20,7 +20,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                 href="#"
               >
                 <PackageIcon className="w-6 h-6" />
-                <span>Acme Inc</span>
+                <span>Event Hub</span>
               </Link>
             </div>
             <div className="flex-1 overflow-y-auto">
