@@ -35,7 +35,7 @@ export const columns: ColumnDef<Event>[] = [
   },
   {
     accessorKey: "organizer",
-    header: "Organize",
+    header: "Organizer",
   },
 
   {
