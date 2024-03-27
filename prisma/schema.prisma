@@ -119,7 +119,7 @@ model Event {
 model Order {
   id          String   @id @default(cuid())
   createdAt   DateTime @default(now())
-  stripeId    String   @unique
+  stripeId    String?   @unique
   totalAmount String
   eventId     String
   buyerId     String
