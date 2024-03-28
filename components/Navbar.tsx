@@ -18,6 +18,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { useCurrentRole } from "@/hooks/useCurrentRole";
 
 const menuItems = [
   {
@@ -46,6 +47,8 @@ export function Navbar() {
   const pathName = usePathname();
   const { data: session } = useSession();
 
+  const role = useCurrentRole();
+
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   const toggleMenu = () => {
@@ -67,19 +70,25 @@ export function Navbar() {
             </Link>
             <div className="hidden lg:block md:pl-10 ">
               <ul className="inline-flex space-x-8">
-                {menuItems.map((item) => (
-                  <li key={item.name}>
-                    <Link
-                      href={item.href}
-                      className={`text-sm  font-medium ${pathName === item.href
-                          ? " border-b-2 border-blue-600 bg-gradient-to-r from-purple-600 via-blue-500 to-blue-400 bg-clip-text text-transparent"
-                          : ""
+                {menuItems.map((item) => {
+                  if (role !== "ADMIN" && item.name === "List Event") {
+                    return;
+                  }
+                  return (
+                    <li key={item.name}>
+                      <Link
+                        href={item.href}
+                        className={`text-sm  font-medium ${
+                          pathName === item.href
+                            ? " border-b-2 border-blue-600 bg-gradient-to-r from-purple-600 via-blue-500 to-blue-400 bg-clip-text text-transparent"
+                            : ""
                         }`}
-                    >
-                      {item.name}
-                    </Link>
-                  </li>
-                ))}
+                      >
+                        {item.name}
+                      </Link>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           </div>
@@ -125,10 +134,11 @@ export function Navbar() {
                         <Button variant="ghost" key={item.name}>
                           <Link
                             href={item.href}
-                            className={`text-sm font-semibold ${pathName === item.href
+                            className={`text-sm font-semibold ${
+                              pathName === item.href
                                 ? " border-b-2 border-blue-600 bg-gradient-to-r from-purple-600 via-blue-500 to-blue-400 bg-clip-text text-transparent"
                                 : ""
-                              }`}
+                            }`}
                           >
                             {item.name}
                           </Link>

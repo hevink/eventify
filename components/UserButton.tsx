@@ -19,9 +19,11 @@ import {
 import { LogoutButton } from "./Logout-Button";
 import Image from "next/image";
 import Link from "next/link";
+import { useCurrentRole } from "@/hooks/useCurrentRole";
 
 export const UserButton = () => {
   const user = useCurrentUser();
+  const role = useCurrentRole();
 
   return (
     <DropdownMenu>
@@ -46,24 +48,26 @@ export const UserButton = () => {
             Logout
           </DropdownMenuItem>
         </LogoutButton>
-        <Link href="/my-events">
+        {/* <Link href="/my-events">
           <DropdownMenuItem>
             <CalendarDays className="h-4 w-4 mr-2" />
             My Events
           </DropdownMenuItem>
-        </Link>
+        </Link> */}
         <Link href="/profile">
           <DropdownMenuItem>
             <User2Icon className="h-4 w-4 mr-2" />
             Profile
           </DropdownMenuItem>
         </Link>
-        <Link href="/admin/dashboard">
-          <DropdownMenuItem>
-            <AudioWaveformIcon className="h-4 w-4 mr-2" />
-            Admin
-          </DropdownMenuItem>
-        </Link>
+        {role === "ADMIN" && (
+          <Link href="/admin/dashboard">
+            <DropdownMenuItem>
+              <AudioWaveformIcon className="h-4 w-4 mr-2" />
+              Admin
+            </DropdownMenuItem>
+          </Link>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );
