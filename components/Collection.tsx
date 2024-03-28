@@ -31,7 +31,7 @@ const Collection = ({
   loading,
 }: CollectionProps) => {
   return (
-    <MaxWidthWrapper className="">
+    <MaxWidthWrapper className="my-4">
       {data?.length > 0 ? (
         <div className="flex flex-col items-center gap-10">
           <ul

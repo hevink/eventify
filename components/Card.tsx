@@ -23,7 +23,7 @@ const Card = ({ event, hasOrderLink }: CardProps) => {
           className="flex-center flex-grow bg-gray-50 bg-cover bg-center text-grey-500"
         />
 
-        <div className="flex min-h-[230px] flex-col gap-3 p-5 md:gap-4">
+        <div className="flex min-h-[200px] flex-col gap-3 p-5 md:gap-4">
           {/* {!hidePrice && ( */}
           <div className="flex gap-2">
             <span className="p-semibold-14 w-min rounded-full bg-green-100 px-4 py-1 ">
@@ -51,20 +51,8 @@ const Card = ({ event, hasOrderLink }: CardProps) => {
               Organized by <p className="text-purple-500">{event?.organizer}</p>
             </p>
 
-            {hasOrderLink && (
-              <Link
-                href={`/orders?eventId=${event?.id}`}
-                className="flex gap-2"
-              >
-                <p className="text-primary-500">Order Details</p>
-                <Image
-                  src="/assets/icons/arrow.svg"
-                  alt="search"
-                  width={10}
-                  height={10}
-                />
-              </Link>
-            )}
+
+
           </div>
         </div>
       </div>

@@ -20,7 +20,7 @@ export default async function Admin() {
             <Package2Icon className="h-6 w-6" />
             <span className="sr-only">Home</span>
           </Link>
-          <h1 className="font-semibold text-lg">Recent Events</h1>
+          <h1 className="font-semibold text-lg">Contact US</h1>
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
           <div className="border shadow-sm rounded-lg p-2">

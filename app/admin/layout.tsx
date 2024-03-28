@@ -14,15 +14,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       <div className="h-screen w-full overflow-hidden bg-gray-100/50 dark:bg-gray-800/50">
         <div className="grid h-screen grid-cols-1 overflow-hidden md:grid-cols-[230px_1fr]">
           <div className="hidden md:flex flex-col border-r border-gray-200/50 dark:border-gray-800/50">
-            <div className="flex h-16 items-center px-4">
-              <Link
-                className="flex items-center gap-2 text-xl font-semibold"
-                href="#"
-              >
-                <PackageIcon className="w-6 h-6" />
-                <span>Event Hub</span>
-              </Link>
-            </div>
             <div className="flex-1 overflow-y-auto">
               <nav className="flex-1">
                 <ul className="flex-1">
@@ -36,7 +27,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                       )}
                       href="/admin/dashboard"
                     >
-                      Dashboard
+                      Events Booking
                     </Link>
                   </li>
                   <li className="h-[50px]">

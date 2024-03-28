@@ -46,3 +46,22 @@ export async function POST(request: Request) {
     });
   }
 }
+
+export async function DELETE(id: string) {
+  try {
+    const event = await prisma.event.delete({
+      where: {
+        id: id,
+      },
+    });
+
+    return NextResponse.json({
+      status: 200,
+      event,
+    });
+  } catch (error) {
+    return NextResponse.json({
+      error,
+    });
+  }
+}

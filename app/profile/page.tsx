@@ -25,7 +25,7 @@ const ProfilePage = async ({ searchParams }: { searchParams: any }) => {
         <div className="wrapper flex items-center justify-center sm:justify-between">
           <h3 className="h3-bold text-center sm:text-left">My Tickets</h3>
           <Button asChild size="lg" className="button hidden sm:flex">
-            <Link href="/#events">Explore More Events</Link>
+            <Link href="/events">Explore More Events</Link>
           </Button>
         </div>
       </section>
@@ -39,7 +39,6 @@ const ProfilePage = async ({ searchParams }: { searchParams: any }) => {
           limit={3}
           page={ordersPage}
           urlParamName="ordersPage"
-        // totalPages={orders?.totalPages}
         />
       </section>
 
@@ -48,7 +47,7 @@ const ProfilePage = async ({ searchParams }: { searchParams: any }) => {
         <div className="wrapper flex items-center justify-center sm:justify-between">
           <h3 className="h3-bold text-center sm:text-left">Events Organized</h3>
           <Button asChild size="lg" className="button hidden sm:flex">
-            <Link href="/events/create">Create New Event</Link>
+            <Link href="#">Create New Event</Link>
           </Button>
         </div>
       </section>
