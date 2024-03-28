@@ -52,6 +52,19 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                       Events
                     </Link>
                   </li>
+                  <li className="h-[50px]">
+                    <Link
+                      className={cn(
+                        "flex h-full items-center px-4 text-sm font-medium text-gray-500 dark:text-gray-400",
+                        pathName === "/admin/contactUs"
+                          ? "bg-gray-200/50 dark:bg-gray-800/50 text-gray-900"
+                          : ""
+                      )}
+                      href="/admin/contactUs"
+                    >
+                      Contact Us
+                    </Link>
+                  </li>
                 </ul>
               </nav>
             </div>
