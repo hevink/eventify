@@ -69,6 +69,19 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                       All Users
                     </Link>
                   </li>
+                  <li className="h-[50px]">
+                    <Link
+                      className={cn(
+                        "flex h-full items-center px-4 text-sm font-medium text-gray-500 dark:text-gray-400",
+                        pathName === "/admin/feedback"
+                          ? "bg-gray-200/50 dark:bg-gray-800/50 text-gray-900"
+                          : ""
+                      )}
+                      href="/admin/feedback"
+                    >
+                      Feedback
+                    </Link>
+                  </li>
                 </ul>
               </nav>
             </div>

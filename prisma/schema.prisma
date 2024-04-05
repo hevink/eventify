@@ -137,3 +137,16 @@ model ContacuUs {
   phone_number String
   message  String
 }
+
+model Review {
+  id String @id @default(cuid())
+  eventId String?
+  userId String?
+  rating String?
+  review String?
+  message String?
+  eventName String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

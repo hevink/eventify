@@ -17,6 +17,8 @@ type CollectionProps = {
   collectionType?: "Events_Organized" | "My_Tickets" | "All_Events";
   className?: string;
   loading?: boolean;
+  review?: boolean;
+
 };
 
 const Collection = ({
@@ -29,6 +31,7 @@ const Collection = ({
   urlParamName,
   className,
   loading,
+  review
 }: CollectionProps) => {
   return (
     <MaxWidthWrapper className="my-4">
@@ -51,6 +54,7 @@ const Collection = ({
                     event={event}
                     hasOrderLink={hasOrderLink}
                     hidePrice={hidePrice}
+                    review={review}
                   />
                 </li>
               );

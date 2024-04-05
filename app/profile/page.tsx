@@ -39,6 +39,7 @@ const ProfilePage = async ({ searchParams }: { searchParams: any }) => {
           limit={3}
           page={ordersPage}
           urlParamName="ordersPage"
+          review
         />
       </section>
 
